@@ -22,7 +22,9 @@
     "@angular/platform-browser": "~10.1.0",
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
+    "codecov.io": "^0.1.6",
     "express": "^4.17.1",
+    "karma-coverage": "^2.0.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

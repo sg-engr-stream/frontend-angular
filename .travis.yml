@@ -1,5 +1,5 @@
 dist: trusty
-sudo: false
+sudo: required
 
 language: node_js
 node_js:
@@ -22,6 +22,10 @@ install:
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
 
+before_install:
+- pip install --user codecov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: heroku
   api_key: 8c55cc26-9ec7-4dcc-825a-fbb879174dff
