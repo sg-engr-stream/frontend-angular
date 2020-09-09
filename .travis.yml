@@ -1,0 +1,33 @@
+dist: trusty
+sudo: false
+
+language: node_js
+node_js:
+  - '12'
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
+  - npm install
+
+script:
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+
+deploy:
+  provider: heroku
+  api_key: 8c55cc26-9ec7-4dcc-825a-fbb879174dff
+  app: short-url-front-stage
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
