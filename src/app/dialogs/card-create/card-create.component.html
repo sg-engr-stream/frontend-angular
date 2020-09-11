@@ -1,0 +1,45 @@
+<div mat-dialog-title align="center">{{data.title}}</div>
+<mat-dialog-content>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Description</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.description">
+    </mat-form-field>
+  </mat-card>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Card ID</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.card_id">
+    </mat-form-field>
+  </mat-card>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Short<span class="red">Url</span></button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.short_url">
+    </mat-form-field>
+  </mat-card>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Expiry</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.expiry">
+    </mat-form-field>
+  </mat-card>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Widget</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.widget">
+    </mat-form-field>
+  </mat-card>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <mat-card-content>If you haven't logged in, please make a note of below, to edit later.</mat-card-content>
+    <button mat-flat-button color="accent">Edit</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.edit">
+    </mat-form-field>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-flat-button color="primary" mat-dialog-close>Close
+    <mat-icon inline="true">close</mat-icon>
+  </button>
+</mat-dialog-actions>

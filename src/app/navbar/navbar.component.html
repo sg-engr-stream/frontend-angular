@@ -1,0 +1,23 @@
+<nav class="topNav mat-tab-nav-bar">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <div fxHide.gt-xs>
+        <button mat-mini-fab mat-icon-button color="default" (click)="onToggleSidenav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button *ngIf="true" mat-button color="default">Hello, Nitin</button>
+      </div>
+      <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <button mat-mini-fab color="default">
+          <mat-icon>home</mat-icon>
+        </button>
+        <a mat-button routerLink="/home">Home</a>
+        <div class="flex-spacer"></div>
+        <a *ngIf="true" mat-button routerLink="/login">Login</a>
+        <a *ngIf="true" mat-button routerLink="/signup">SignUp</a>
+        <button *ngIf="false" mat-button color="default">Hello, Nitin</button>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</nav>
+
