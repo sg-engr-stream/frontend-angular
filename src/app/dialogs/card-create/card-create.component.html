@@ -1,5 +1,5 @@
-<div mat-dialog-title align="center">ShortUrl created with below details:</div>
-<mat-dialog-content>
+<div mat-dialog-title align="center">Short<span class="red">Url</span> created with below details:</div>
+<mat-dialog-content fxLayout="row wrap" fxLayoutGap="15px" fxLayoutAlign="center">
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
     <button mat-flat-button color="accent">Title</button>
     <mat-form-field>
@@ -19,7 +19,7 @@
     </mat-form-field>
   </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-    <button mat-flat-button color="accent">Short<span class="red">Url</span></button>
+    <button mat-flat-button color="accent"><div class="d-flex">Short<span class="red">Url</span></div></button>
     <mat-form-field>
       <input matInput [disabled]="true" [value]="data.message.short_url">
     </mat-form-field>

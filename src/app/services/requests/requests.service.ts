@@ -10,7 +10,7 @@ import { CommonService } from '../common/common.service';
 export class RequestsService {
 
   serverUrl: string = environment.backendUrl;
-  headerKey = 'shorturl-access-token';
+  headerKey = 'Shorturl-Access-Token';
 
   constructor(private http: HttpClient, private cookie: CookieService, private common: CommonService) {
   }
@@ -21,18 +21,22 @@ export class RequestsService {
 
   get_request(path): any {
     const token = this.cookie.get('token');
-    const header = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let header: HttpHeaders;
     if (token.length > 0) {
-      header.append(this.headerKey, token);
+      header = new HttpHeaders().append('Content-Type', 'application/json').append(this.headerKey, token);
+    } else {
+      header = new HttpHeaders().append('Content-Type', 'application/json');
     }
     return this.http.get(this.serverUrl + path, { headers: header });
   }
 
   post_request(path, data): any {
     const token = this.cookie.get('token');
-    const header = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let header: HttpHeaders;
     if (token.length > 0) {
-      header.append(this.headerKey, token);
+      header = new HttpHeaders().append('Content-Type', 'application/json').append(this.headerKey, token);
+    } else {
+      header = new HttpHeaders().append('Content-Type', 'application/json');
     }
     return this.http.post(this.serverUrl + path, data, { headers: header, responseType: 'json' });
   }
@@ -48,6 +52,11 @@ export class RequestsService {
     return this.post_request('/user/add/', data);
   }
 
+  fetchUserDetails(): any {
+    const username = atob(this.cookie.get('token')).split(':')[0];
+    return this.get_request('/user/id/' + username);
+  }
+
   checkUsernameAvailability(username): any {
     return this.get_request('/user/available/' + username);
   }
@@ -58,5 +67,13 @@ export class RequestsService {
 
   createShortUrl(data): any {
     return this.post_request('/card/add/', data);
+  }
+
+  getCardDetails(cardId): any {
+    return this.get_request('/card/id/' + cardId);
+  }
+
+  getRedirectUrl(shortUrl): any {
+    return this.get_request('/card/short_url/' + shortUrl);
   }
 }

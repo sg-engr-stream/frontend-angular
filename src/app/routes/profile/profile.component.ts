@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common/common.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  verifiedUser: boolean;
+  constructor(private common: CommonService) { }
 
   ngOnInit(): void {
   }

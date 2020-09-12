@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { RequestsService } from '../../services/requests/requests.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common/common.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login-signup',
@@ -28,7 +29,7 @@ export class LoginSignupComponent implements OnInit {
   usernameAvailable: any;
 
   constructor(private routes: ActivatedRoute, private cookie: CookieService, private requests: RequestsService,
-              private common: CommonService) { }
+              private common: CommonService, private router: Router) { }
 
   ngOnInit(): void {
     this.routes.data.subscribe(data => {this.loginType = data.type; });
@@ -37,7 +38,9 @@ export class LoginSignupComponent implements OnInit {
 
   login(): any {
     this.requests.login(this.loginForm.get('username').value, this.loginForm.get('secret').value).subscribe(res => {
-      console.log(res);
+      this.common.setUserDetails(res.result);
+    }, err => {
+      this.common.openDialogMessage('Login Failed', 'User or Password is wrong');
     });
   }
 
@@ -48,7 +51,9 @@ export class LoginSignupComponent implements OnInit {
       this.signupForm.get('email').value,
       this.signupForm.get('secret').value
     ).subscribe(res => {
-      console.log(res);
+      this.common.setUserDetails(res.result);
+    }, err => {
+      this.common.openDialogMessage('SignUp Failed', err.error.message);
     });
   }
 

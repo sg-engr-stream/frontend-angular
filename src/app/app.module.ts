@@ -40,6 +40,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/d
 import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CardCreateComponent } from './dialogs/card-create/card-create.component';
+import { LoginSignupGuardService } from './services/login-signup-guard/login-signup-guard.service';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,7 @@ import { CardCreateComponent } from './dialogs/card-create/card-create.component
     ProfileComponent,
     LoaderComponent,
     MessageDialogComponent,
-    CardCreateComponent
+    CardCreateComponent,
   ],
   imports: [
     HttpClientModule,
@@ -78,10 +80,11 @@ import { CardCreateComponent } from './dialogs/card-create/card-create.component
     MatRippleModule,
     MatGridListModule,
     MatSidenavModule,
+    MatTableModule,
     MatRadioModule,
     MatListModule,
   ],
-  providers: [AuthGuardService, CommonService, RequestsService, CookieService, LoaderService, {
+  providers: [AuthGuardService, LoginSignupGuardService, CommonService, RequestsService, CookieService, LoaderService, {
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true

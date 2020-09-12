@@ -5,7 +5,7 @@
         <button mat-mini-fab mat-icon-button color="default" (click)="onToggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
-        <button *ngIf="true" mat-button color="default">Hello, Nitin</button>
+        <button *ngIf="common.isLoggedIn" mat-button color="default">Hello, {{common.name}}</button>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <button mat-mini-fab color="default">
@@ -13,9 +13,16 @@
         </button>
         <a mat-button routerLink="/home">Home</a>
         <div class="flex-spacer"></div>
-        <a *ngIf="true" mat-button routerLink="/login">Login</a>
-        <a *ngIf="true" mat-button routerLink="/signup">SignUp</a>
-        <button *ngIf="false" mat-button color="default">Hello, Nitin</button>
+        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/login">Login</a>
+        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/signup">SignUp</a>
+        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/profile">Hello, {{common.name}}</button>
+        <button *ngIf="common.isLoggedIn" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Profile menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <button mat-menu-item routerLink="/profile">Profile</button>
+          <button mat-menu-item (click)="common.logout()">Logout</button>
+        </mat-menu>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

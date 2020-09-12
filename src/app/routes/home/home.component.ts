@@ -24,6 +24,20 @@ export class HomeComponent implements OnInit {
   responseText: any;
 
   constructor(private request: RequestsService, private common: CommonService) {
+    // this.common.openDialogCardCreate({
+    //   card_id: "t8nqk1e6sM447p8djtCJ",
+    //   created_by: "public",
+    //   date_created: "2020-09-12T05:48:28.908254",
+    //   description: "Testing UI",
+    //   expiry: null,
+    //   icon_url: null,
+    //   last_updated: "2020-09-12T05:48:28.908254",
+    //   owner: "public",
+    //   redirect_url: "https://indianexpress.com/article/technology/social/youtube-rolls-out-new-icon-design-changes-for-mobile-desktop-app-4820421/",
+    //   short_url: "6cIHNnn4lf",
+    //   status: true,
+    //   title: "test"
+    // });
   }
 
   ngOnInit(): void {
@@ -64,10 +78,10 @@ export class HomeComponent implements OnInit {
     this.request.checkShortUrlAvailability(this.shortUrlForm.get('shortUrl').value).subscribe(
       res => {
         this.shortUrlAvailable = true;
-        this.responseText = res.response;
+        this.responseText = res.response.replace('ShortUrl', this.shortUrlForm.get('shortUrl').value);
       }, err => {
-        this.shortUrlAvailable = true;
-        this.responseText = err.error.response;
+        this.shortUrlAvailable = false;
+        this.responseText = err.error.response.replace('ShortUrl', this.shortUrlForm.get('shortUrl').value);
       }
     );
   }

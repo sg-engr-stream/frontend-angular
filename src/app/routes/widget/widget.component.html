@@ -1,1 +1,35 @@
-<p>widget works!</p>
+<mat-card fxLayout="column" fxLayoutGap="15px">
+  <mat-card-header fxLayoutAlign="start center">
+    <div mat-card-avatar><img src="{{cardDetails.icon_url}}" alt="S"></div>
+    <mat-card-title>{{cardDetails.title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="mat-elevation-z1">
+      <tr>
+        <td>Owner</td>
+        <td>{{cardDetails.owner}}</td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>{{cardDetails.description}}</td>
+      </tr>
+      <tr>
+        <td>Expiry</td>
+        <td>{{cardDetails.expiry}}</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>{{cardDetails.status}}</td>
+      </tr>
+      <tr>
+        <td>Embed</td>
+        <td><mat-form-field><input matInput disabled="disabled" [value]="embedCode"></mat-form-field></td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="end" fxLayoutGap="15px">
+    <button mat-raised-button color="primary" (click)="redirect()">Redirect <mat-icon>open_in_new</mat-icon></button>
+    <button mat-mini-fab color="primary"><mat-icon>favorite</mat-icon></button>
+    <button mat-mini-fab color="primary"><mat-icon>share</mat-icon></button>
+  </mat-card-actions>
+</mat-card>
