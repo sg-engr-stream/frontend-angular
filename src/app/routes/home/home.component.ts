@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
     description: new FormControl('', [Validators.minLength(5), Validators.maxLength(200)]),
     icon_url: new FormControl('', [Validators.minLength(3), Validators.maxLength(200)]),
     expiry: new FormControl(''),
-    redirectUrl: new FormControl('', [Validators.pattern(this.reg)]),
-    shortUrl: new FormControl('')
+    redirectUrl: new FormControl('', [Validators.pattern(this.reg), Validators.maxLength(500)]),
+    shortUrl: new FormControl('', [Validators.maxLength(50), Validators.pattern('([a-zA-Z0-9]+[\-_a-zA-Z0-9]+)')])
   });
 
   shortUrlAvailable: any;
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
       delete data.expiry;
     }
     this.request.createShortUrl(data).subscribe(res => {
-      this.common.openDialogCardCreate(res.title, res);
+      this.common.openDialogCardCreate(res);
     }, err => {
       this.common.openDialogMessage('Error ' + err.statusCode, err.error.response);
     });
@@ -70,6 +70,11 @@ export class HomeComponent implements OnInit {
         this.responseText = err.error.response;
       }
     );
+  }
+
+  keyupShortUrl(): void {
+    this.shortUrlAvailable = false;
+    this.responseText = null;
   }
 
 }

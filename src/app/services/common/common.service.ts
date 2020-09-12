@@ -26,10 +26,10 @@ export class CommonService {
     });
   }
 
-  openDialogCardCreate(title, message): void {
+  openDialogCardCreate(message): void {
     const dialogRef = this.dialog.open(CardCreateComponent, {
       width: '80%',
-      data: {title, message}
+      data: {message}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog Closed', result);

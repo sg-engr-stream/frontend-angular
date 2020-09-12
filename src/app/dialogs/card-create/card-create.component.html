@@ -1,5 +1,11 @@
-<div mat-dialog-title align="center">{{data.title}}</div>
+<div mat-dialog-title align="center">ShortUrl created with below details:</div>
 <mat-dialog-content>
+  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <button mat-flat-button color="accent">Title</button>
+    <mat-form-field>
+      <input matInput [disabled]="true" [value]="data.message.title">
+    </mat-form-field>
+  </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
     <button mat-flat-button color="accent">Description</button>
     <mat-form-field>

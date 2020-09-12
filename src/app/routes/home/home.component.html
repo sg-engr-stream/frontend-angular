@@ -44,21 +44,21 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>ShortUrl</mat-label>
-              <input matInput placeholder="ShortUrl" formControlName="shortUrl">
+              <input matInput placeholder="ShortUrl" formControlName="shortUrl" (keyup)="keyupShortUrl()">
               <mat-hint>Provide for custom shortUrl.</mat-hint>
             </mat-form-field>
           </div>
         </form>
       </mat-card-content>
-      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutGap="20px">
+      <div fxLayout="column" fxLayoutGap="20px">
         <mat-card-content>
-          <button mat-flat-button color="accent" (click)="checkShortUrlAvailability()" [disabled]="shortUrlForm.get('shortUrl').value.length === 0">Check
+          <button mat-flat-button color="accent" (click)="checkShortUrlAvailability()" [disabled]="shortUrlForm.get('shortUrl').value.length === 0 || !shortUrlForm.get('shortUrl').valid">Check
             Availability
           </button>
           <span class="mat-card-header-text" [ngClass]="shortUrlAvailable? 'green': 'red'">{{responseText}}</span>
         </mat-card-content>
         <mat-card-content>
-          <button mat-flat-button (click)="createShortUrl()" color="primary" [disabled]="!shortUrlForm.valid">Create
+          <button mat-flat-button (click)="createShortUrl()" color="primary" [disabled]="!(shortUrlForm.valid && (shortUrlForm.get('shortUrl').value.length === 0 || shortUrlAvailable))">Create
           </button>
         </mat-card-content>
       </div>
