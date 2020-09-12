@@ -12,7 +12,7 @@ import { User } from '../../models/user';
 export class CommonService {
 
   isLoggedIn: boolean;
-  user: string;
+  username: string;
   name: string;
   emailVerified: boolean;
   email: string;
@@ -23,6 +23,9 @@ export class CommonService {
     }
     if (this.cookie.check('loggedIn')) {
       this.isLoggedIn = this.cookie.get('loggedIn') === '1';
+    }
+    if (this.cookie.check('verified')) {
+      this.emailVerified = this.cookie.get('verified') === '1';
     }
   }
 
@@ -55,19 +58,21 @@ export class CommonService {
     this.cookie.delete('token');
     this.cookie.delete('name');
     this.cookie.delete('loggedIn');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   setUserDetails(res, redirect = true): void {
     const user = res as User;
     this.cookie.set('name', user.name.toUpperCase());
     this.cookie.set('loggedIn', '1');
+    this.cookie.set('verified', user.verified ? '1' : '0');
     this.name = user.name.toUpperCase();
+    this.username = user.username;
     this.email = user.email;
     this.emailVerified = user.verified;
     this.isLoggedIn = true;
     if (redirect === true) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/']);
     }
   }
 }

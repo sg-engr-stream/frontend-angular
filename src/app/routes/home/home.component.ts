@@ -17,13 +17,19 @@ export class HomeComponent implements OnInit {
     icon_url: new FormControl('', [Validators.minLength(3), Validators.maxLength(200)]),
     expiry: new FormControl(''),
     redirectUrl: new FormControl('', [Validators.pattern(this.reg), Validators.maxLength(500)]),
-    shortUrl: new FormControl('', [Validators.maxLength(50), Validators.pattern('([a-zA-Z0-9]+[\-_a-zA-Z0-9]+)')])
+    shortUrl: new FormControl('', [Validators.maxLength(50), Validators.pattern('([a-zA-Z0-9]*[\-_a-zA-Z0-9]+)')])
   });
 
   shortUrlAvailable: any;
   responseText: any;
+  beforeShortUrl: string;
+  verification = new FormGroup({
+    verificationCode: new FormControl('', [Validators.pattern('([0-9]){6}'), Validators.maxLength(6)])
+  });
+  countDown = 0;
 
-  constructor(private request: RequestsService, private common: CommonService) {
+  constructor(private request: RequestsService, public common: CommonService) {
+    this.beforeShortUrl = window.location.origin;
     // this.common.openDialogCardCreate({
     //   card_id: "t8nqk1e6sM447p8djtCJ",
     //   created_by: "public",
@@ -50,7 +56,8 @@ export class HomeComponent implements OnInit {
       redirect_url: this.shortUrlForm.get('redirectUrl').value,
       expiry: this.shortUrlForm.get('expiry').value,
       icon_url: this.shortUrlForm.get('icon_url').value,
-      short_url: this.shortUrlForm.get('shortUrl').value
+      short_url: this.shortUrlForm.get('shortUrl').value,
+      host: window.location.origin
     };
     if (data.icon_url === undefined) {
       delete data.icon_url;
@@ -91,4 +98,28 @@ export class HomeComponent implements OnInit {
     this.responseText = null;
   }
 
+  resendVerification(): void {
+    this.countDown = 30;
+    const t = window.setInterval(() => {
+      this.countDown -= 1;
+      if (this.countDown === 0) {
+        window.clearInterval(t);
+      }
+    }, 1000);
+    this.request.resendVerification().subscribe(() => {
+    }, () => {
+      this.common.openDialogMessage('Resend Verification Code Failed',
+        'Error occurred while sending the verification to your e-mail. Please try again.');
+      window.clearInterval(t);
+      this.countDown = 0;
+    });
+  }
+
+  verify(): void {
+    this.request.verify(this.verification.get('verificationCode').value).subscribe(res => {
+      this.common.emailVerified = true;
+    }, () => {
+      this.common.openDialogMessage('Verification Failed', 'Invalid code. Please try again.');
+    });
+  }
 }

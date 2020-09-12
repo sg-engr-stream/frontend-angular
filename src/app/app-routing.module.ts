@@ -11,13 +11,12 @@ import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { LoginSignupGuardService } from './services/login-signup-guard/login-signup-guard.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginSignupComponent, data: { type: 'login'}, canActivate: [LoginSignupGuardService]},
-  {path: 'signup', component: LoginSignupComponent, data: { type: 'signup'}, canActivate: [LoginSignupGuardService]},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService]},
+  {path: '', component: HomeComponent},
+  {path: 'app/login', component: LoginSignupComponent, data: { type: 'login'}, canActivate: [LoginSignupGuardService]},
+  {path: 'app/signup', component: LoginSignupComponent, data: { type: 'signup'}, canActivate: [LoginSignupGuardService]},
+  {path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService]},
   {path: 'w/:widget', component: WidgetComponent},
-  {path: 'default', component: NgDefaultComponent},
+  {path: 'app/default', component: NgDefaultComponent},
   {path: ':shortUrl', component: RedirectComponent},
   {path: '**', component: NotFoundComponent}
 ];

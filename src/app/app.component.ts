@@ -21,7 +21,7 @@ export class AppComponent {
       res => {
         this.common.setUserDetails(res.result, false);
       }, err => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       });
     }
   }

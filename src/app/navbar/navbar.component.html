@@ -8,19 +8,19 @@
         <button *ngIf="common.isLoggedIn" mat-button color="default">Hello, {{common.name}}</button>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <button mat-mini-fab color="default">
+        <button mat-mini-fab color="default" routerLink="/">
           <mat-icon>home</mat-icon>
         </button>
-        <a mat-button routerLink="/home">Home</a>
+        <a mat-button routerLink="/">Home</a>
         <div class="flex-spacer"></div>
-        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/login">Login</a>
-        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/signup">SignUp</a>
-        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/profile">Hello, {{common.name}}</button>
+        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/login">Login</a>
+        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/signup">SignUp</a>
+        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">Hello, {{common.name}}</button>
         <button *ngIf="common.isLoggedIn" mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Profile menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button mat-menu-item routerLink="/profile">Profile</button>
+          <button mat-menu-item routerLink="/app/profile">Profile</button>
           <button mat-menu-item (click)="common.logout()">Logout</button>
         </mat-menu>
       </div>

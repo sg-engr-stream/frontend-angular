@@ -5,7 +5,7 @@
         <mat-card-title class="zero-margin-bottom">Welcome to Short<span class="red">Url</span></mat-card-title>
       </mat-card-header>
     </mat-card>
-    <mat-card class="shortUrl-card">
+    <mat-card *ngIf="!common.isLoggedIn || (common.isLoggedIn && common.emailVerified)" class="shortUrl-card">
       <mat-card-header>
         <mat-card-title>Create your own Short<span class="red">Url</span> below</mat-card-title>
       </mat-card-header>
@@ -45,23 +45,51 @@
             <mat-form-field appearance="outline">
               <mat-label>ShortUrl</mat-label>
               <input matInput placeholder="ShortUrl" formControlName="shortUrl" (keyup)="keyupShortUrl()">
-              <mat-hint>Provide for custom shortUrl.</mat-hint>
+              <mat-hint>Provide for custom shortUrl.<span
+                *ngIf="shortUrlForm.get('shortUrl').value.length != 0"><br>{{beforeShortUrl}}/{{shortUrlForm.get('shortUrl').value}}</span></mat-hint>
             </mat-form-field>
           </div>
         </form>
       </mat-card-content>
       <div fxLayout="column" fxLayoutGap="20px">
         <mat-card-content>
-          <button mat-flat-button color="accent" (click)="checkShortUrlAvailability()" [disabled]="shortUrlForm.get('shortUrl').value.length === 0 || !shortUrlForm.get('shortUrl').valid">Check
+          <button mat-flat-button color="accent" (click)="checkShortUrlAvailability()"
+                  [disabled]="shortUrlForm.get('shortUrl').value.length === 0 || !shortUrlForm.get('shortUrl').valid">
+            Check
             Availability
           </button>
           <span class="mat-card-header-text" [ngClass]="shortUrlAvailable? 'green': 'red'">{{responseText}}</span>
         </mat-card-content>
         <mat-card-content>
-          <button mat-flat-button (click)="createShortUrl()" color="primary" [disabled]="!(shortUrlForm.valid && (shortUrlForm.get('shortUrl').value.length === 0 || shortUrlAvailable))">Create
+          <button mat-flat-button (click)="createShortUrl()" color="primary"
+                  [disabled]="!(shortUrlForm.valid && (shortUrlForm.get('shortUrl').value.length === 0 || shortUrlAvailable))">
+            Create
           </button>
         </mat-card-content>
       </div>
+    </mat-card>
+    <mat-card class="registered-unverified" *ngIf="common.isLoggedIn && !common.emailVerified">
+      <mat-card-content fxLayoutAlign="center">
+          Seems like you are not verified. Kindly, verify your e-mail address {{common.email}}
+      </mat-card-content>
+      <mat-card-content fxLayoutAlign="center center" fxLayout="column">
+        <button mat-raised-button color="primary" [disabled]="countDown != 0" (click)="resendVerification()">Resend Verification Code</button>
+        <div *ngIf="countDown != 0">Kindly, wait <span class="red">{{countDown}}</span> seconds, before trying again.</div>
+      </mat-card-content>
+      <div>
+      <mat-card-content fxLayoutAlign="center">
+        <form [formGroup]="verification">
+          <mat-form-field appearance="outline">
+              <mat-label>Verification Code</mat-label>
+              <input matInput placeholder="Verification Code" formControlName="verificationCode" required>
+              <mat-hint>Enter verification code sent to your e-email</mat-hint>
+            </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center">
+        <button mat-raised-button color="primary" (click)="verify()" [disabled]="!verification.get('verificationCode').valid">Verify</button>
+      </mat-card-actions>
+        </div>
     </mat-card>
   </div>
 </div>

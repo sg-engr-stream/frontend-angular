@@ -12,7 +12,7 @@ export class LoginSignupGuardService {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.commonService.isUserLoggedIn()) {
-      this.router.navigate(['home']);
+      this.router.navigate(['/']);
       return false;
     }
     return true;

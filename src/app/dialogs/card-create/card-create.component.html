@@ -19,7 +19,7 @@
     </mat-form-field>
   </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-    <button mat-flat-button color="accent"><div class="d-flex">Short<span class="red">Url</span></div></button>
+    <button mat-flat-button color="accent" (click)="openInNewTab('shortUrl')"><div class="d-flex">Short<span class="red">Url</span></div></button>
     <mat-form-field>
       <input matInput [disabled]="true" [value]="data.message.short_url">
     </mat-form-field>
@@ -31,14 +31,14 @@
     </mat-form-field>
   </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-    <button mat-flat-button color="accent">Widget</button>
+    <button mat-flat-button color="accent" (click)="openInNewTab('widget')">Widget</button>
     <mat-form-field>
       <input matInput [disabled]="true" [value]="data.message.widget">
     </mat-form-field>
   </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
     <mat-card-content>If you haven't logged in, please make a note of below, to edit later.</mat-card-content>
-    <button mat-flat-button color="accent">Edit</button>
+    <button mat-flat-button color="accent" (click)="openInNewTab('edit')">Edit</button>
     <mat-form-field>
       <input matInput [disabled]="true" [value]="data.message.edit">
     </mat-form-field>

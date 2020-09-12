@@ -31,7 +31,7 @@
       </div>
     </mat-card-content>
     <mat-card-content>
-      <div>Not yet registered, <button mat-raised-button routerLink="/signup" color="primary">SignUp</button> here.</div>
+      <div>Not yet registered, <button mat-raised-button routerLink="/app/signup" color="primary">SignUp</button> here.</div>
     </mat-card-content>
 
   </mat-card>
@@ -53,7 +53,7 @@
           <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName="email" required>
           <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>mail</mat-icon>
+            <mat-icon>contact_mail</mat-icon>
           </button>
         </mat-form-field>
         <br>
@@ -61,8 +61,8 @@
           <mat-label>Username</mat-label>
           <input matInput (keyup)="clearAvailabilityMessage()" placeholder="Username" formControlName="username"
                  required>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>person</mat-icon>
+          <button mat-icon-button matSuffix tabindex="-1" disabled="true">
+
           </button>
         </mat-form-field>
         <mat-card-content>
@@ -90,7 +90,7 @@
       </div>
     </mat-card-content>
     <mat-card-content>
-      <div>Already registered, <button mat-raised-button routerLink="/login" color="primary">Login</button> here.</div>
+      <div>Already registered, <button mat-raised-button routerLink="/app/login" color="primary">Login</button> here.</div>
     </mat-card-content>
 
   </mat-card>

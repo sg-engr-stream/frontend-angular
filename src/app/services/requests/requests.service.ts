@@ -74,6 +74,14 @@ export class RequestsService {
   }
 
   getRedirectUrl(shortUrl): any {
-    return this.get_request('/card/short_url/' + shortUrl);
+    return this.get_request('/short_url/' + shortUrl);
+  }
+
+  resendVerification(): any {
+    return this.post_request('/user/action/resend_verification/', {username: this.common.username});
+  }
+
+  verify(code): any {
+    return this.post_request('/user/action/verify/', {username: this.common.username, verification_code: code});
   }
 }

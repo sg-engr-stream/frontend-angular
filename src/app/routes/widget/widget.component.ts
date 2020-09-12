@@ -37,6 +37,9 @@ export class WidgetComponent implements OnInit, OnDestroy, AfterViewInit {
     if (cardId !== undefined) {
       this.request.getCardDetails(cardId).subscribe(res => {
         this.cardDetails = res as Card;
+        if (this.cardDetails.expiry === null) {
+          this.cardDetails.expiry = 'No Expiry';
+        }
         this.embedCode = '<iframe src="' + window.location.href + '" style="border: none;" width="420" height="320"></iframe>';
         console.log(this.cardDetails);
       }, err => {
