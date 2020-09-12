@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  title = 'frontend-app';
   constructor(private cookie: CookieService, private request: RequestsService, public common: CommonService,
               private router: Router) {
     this.loadUser();
