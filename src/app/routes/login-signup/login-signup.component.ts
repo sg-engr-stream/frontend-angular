@@ -60,7 +60,7 @@ export class LoginSignupComponent implements OnInit {
   checkUsernameAvailability(): any {
     this.usernameResponseMessage = null;
     this.requests.checkUsernameAvailability(this.signupForm.get('username').value).subscribe(res => {
-      this.usernameResponseMessage = res.response;
+      this.usernameResponseMessage = res.response.replace('Username', this.signupForm.get('username').value);
       this.usernameAvailable = true;
     }, error => {
       this.usernameResponseMessage = error.error.response;

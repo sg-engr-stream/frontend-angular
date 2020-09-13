@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardCreateComponent } from './card-create.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('CardCreateComponent', () => {
   let component: CardCreateComponent;
@@ -8,7 +9,9 @@ describe('CardCreateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardCreateComponent ]
+      declarations: [ CardCreateComponent ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: { message: { card_id: null, expiry: '' } } }]
     })
     .compileComponents();
   });
