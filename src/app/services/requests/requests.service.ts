@@ -19,25 +19,25 @@ export class RequestsService {
     this.cookie.set('token', btoa(username + ':' + secret));
   }
 
-  get_request(path): any {
+  setHeaders(): any {
     const token = this.cookie.get('token');
     let header: HttpHeaders;
     if (token.length > 0) {
-      header = new HttpHeaders().append('Content-Type', 'application/json').append(this.headerKey, token);
+      header = new HttpHeaders().append('Content-Type', 'application/json').append(this.headerKey, token)
+        .append('Access-Control-Allow-Origin', environment.backendUrl);
     } else {
       header = new HttpHeaders().append('Content-Type', 'application/json');
     }
+    return header;
+  }
+
+  get_request(path): any {
+    const header = this.setHeaders();
     return this.http.get(this.serverUrl + path, { headers: header });
   }
 
   post_request(path, data): any {
-    const token = this.cookie.get('token');
-    let header: HttpHeaders;
-    if (token.length > 0) {
-      header = new HttpHeaders().append('Content-Type', 'application/json').append(this.headerKey, token);
-    } else {
-      header = new HttpHeaders().append('Content-Type', 'application/json');
-    }
+    const header = this.setHeaders();
     return this.http.post(this.serverUrl + path, data, { headers: header, responseType: 'json' });
   }
 
