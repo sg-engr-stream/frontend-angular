@@ -14,6 +14,7 @@ export class CardCreateComponent implements OnInit {
   ngOnInit(): void {
     this.data.message.widget = window.location.origin + '/w/' + this.data.message.card_id;
     this.data.message.edit = window.location.origin + '/edit/' + this.data.message.card_id;
+    this.data.message.short_url = window.location.origin + '/' + this.data.message.short_url;
     if (this.data.message.expiry === null) {
       this.data.message.expiry = 'No Expiry';
     } else if (this.data.message.expiry.length === 0) {
