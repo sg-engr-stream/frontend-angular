@@ -75,4 +75,10 @@ export class CommonService {
       this.router.navigate(['/']);
     }
   }
+
+  clearCookies(): void {
+    this.cookie.delete('name');
+    this.cookie.delete('loggedIn');
+    this.cookie.delete('verified');
+  }
 }

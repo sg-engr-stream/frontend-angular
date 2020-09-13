@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-card class="login-card" *ngIf="loginType == 'login'">
-    <mat-card-header>
+  <mat-card class="login-card" *ngIf="loginType == 'login' && !forgotPass">
+    <mat-card-header fxLayoutAlign="center center">
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -27,70 +27,119 @@
       <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
         <mat-card-actions>
           <button mat-raised-button (click)="login()" color="primary" [disabled]="!loginForm.valid">Login</button>
+          <button mat-raised-button (click)="forgotPass = !forgotPass" color="primary">Forgot Password</button>
         </mat-card-actions>
       </div>
     </mat-card-content>
     <mat-card-content>
-      <div>Not yet registered, <button mat-raised-button routerLink="/app/signup" color="primary">SignUp</button> here.</div>
+      <div>Not yet registered,
+        <button mat-raised-button routerLink="/app/signup" color="primary">SignUp</button>
+        here.
+      </div>
     </mat-card-content>
-
   </mat-card>
-  <mat-card class="signup-card" *ngIf="loginType == 'signup'">
-    <mat-card-header>
-      <mat-card-title>SignUp</mat-card-title>
+  <mat-card class="login-card" *ngIf="loginType == 'login' && forgotPass">
+    <mat-card-header fxLayoutAlign="center center">
+      <mat-card-title>Forgot Password</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form class="login-form" [formGroup]="signupForm">
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Name" formControlName="name" required>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>person</mat-icon>
-          </button>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" fxLayoutAlign="center center">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName="email" required>
           <button mat-icon-button matSuffix tabindex="-1">
             <mat-icon>contact_mail</mat-icon>
           </button>
         </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput (keyup)="clearAvailabilityMessage()" placeholder="Username" formControlName="username"
-                 required>
-          <button mat-icon-button matSuffix tabindex="-1" disabled="true">
+      </form>
+      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+        <mat-card-actions>
+          <button mat-raised-button (click)="sendPasswordReset()" color="primary"
+                  [disabled]="!(signupForm.get('email').valid && resetCountdown == 0) || resetCountdown !== 0">Password Reset
+          </button>
+        </mat-card-actions>
+      </div>
+      <br>
+      <span *ngIf="resetCountdown !== 0">Password reset link has been sent to your email. Wait <span
+        class="red">{{resetCountdown}}</span> sec, before trying again</span>
+    </mat-card-content>
+    <mat-card-content fxLayoutAlign="center center">
+      <div>Go back to
+        <button mat-raised-button (click)="forgotPass = !forgotPass" color="primary">Login</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="signup-card" *ngIf="loginType == 'signup'">
+    <mat-card-header fxLayoutAlign="center center">
+      <mat-card-title>SignUp</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="login-form" [formGroup]="signupForm" fxLayoutGap="15px">
+        <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutGap="15px">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Name" formControlName="name" required>
+              <button mat-icon-button matSuffix tabindex="-1">
+                <mat-icon>person</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email" formControlName="email" required (focusout)="checkEmailAvailability()"
+                     (keyup)="clearEmailAvailabilityMessage()">
+              <button mat-icon-button matSuffix tabindex="-1">
+                <mat-icon>contact_mail</mat-icon>
+              </button>
+            </mat-form-field><br>
+            <span class="responseMessage emailMessage"
+                  [ngClass]="emailAvailable? 'green': 'red'">{{emailResponseMessage}}</span><br>
+          </div>
+        </div>
+        <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutGap="15px">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Username</mat-label>
+              <input matInput (keyup)="clearAvailabilityMessage()" (focusout)="checkUsernameAvailability()" placeholder="Username" formControlName="username"
+                     required>
+              <button mat-icon-button matSuffix tabindex="-1" disabled="true">
 
-          </button>
-        </mat-form-field>
-        <mat-card-content>
-          <button mat-flat-button color="accent" (click)="checkUsernameAvailability()"
-                  [disabled]="!signupForm.get('username').valid">Check Availability
-          </button>
-          <br>
-          <span class="responseMessage" [ngClass]="usernameAvailable? 'green': 'red'">{{usernameResponseMessage}}</span>
-        </mat-card-content>
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="secret" required>
-          <button mat-icon-button matSuffix (click)="hidePass = !hidePass" tabindex="-1"
-                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
-            <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+              </button>
+            </mat-form-field>
+            <mat-card-content>
+              <span class="responseMessage"
+                    [ngClass]="usernameAvailable? 'green': 'red'">{{usernameResponseMessage}}</span>
+            </mat-card-content>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="secret" required>
+              <button mat-icon-button matSuffix (click)="hidePass = !hidePass" tabindex="-1"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
+                <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
 
-        </mat-form-field>
+            </mat-form-field>
+          </div>
+        </div>
 
       </form>
       <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
         <mat-card-actions>
-          <button mat-raised-button (click)="signup()" color="primary" [disabled]="!(signupForm.valid && usernameAvailable)">SignUp</button>
+          <button mat-raised-button (click)="signup()" color="primary"
+                  [disabled]="!(signupForm.valid && usernameAvailable)">SignUp
+          </button>
         </mat-card-actions>
       </div>
     </mat-card-content>
-    <mat-card-content>
-      <div>Already registered, <button mat-raised-button routerLink="/app/login" color="primary">Login</button> here.</div>
+    <mat-card-content fxLayoutAlign="center center">
+      <div>Already registered,
+        <button mat-raised-button routerLink="/app/login" color="primary">Login</button>
+        here.
+      </div>
     </mat-card-content>
 
   </mat-card>

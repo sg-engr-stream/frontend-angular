@@ -43,13 +43,23 @@ export class RequestsService {
 
   login(username, secret): any {
     this.setCookie(username, secret);
-    return this.post_request('/user/login_check/' + username,  { secret });
+    this.post_request('/user/login_check/' + username,  { secret }).subscribe(res => {
+      this.common.setUserDetails(res.result);
+    }, () => {
+      this.common.openDialogMessage('Login Failed', 'User or Password is wrong');
+      this.common.clearCookies();
+    });
   }
 
   signup(name, username, email, secret): any {
     this.setCookie(username, secret);
     const data = { name, username, email, secret };
-    return this.post_request('/user/add/', data);
+    this.post_request('/user/add/', data).subscribe(res => {
+      this.common.setUserDetails(res.result);
+    }, err => {
+      this.common.openDialogMessage('SignUp Failed', err.error.message);
+      this.common.clearCookies();
+    });
   }
 
   fetchUserDetails(): any {
@@ -59,6 +69,10 @@ export class RequestsService {
 
   checkUsernameAvailability(username): any {
     return this.get_request('/user/available/' + username);
+  }
+
+  checkEmailAvailability(email): any {
+    return this.post_request('/user/email_available/', {email});
   }
 
   checkShortUrlAvailability(shortUrl): any {
@@ -79,6 +93,14 @@ export class RequestsService {
 
   resendVerification(): any {
     return this.post_request('/user/action/resend_verification/', {username: this.common.username});
+  }
+
+  sendPasswordReset(email): any {
+    return this.post_request('/user/password_reset/', {email});
+  }
+
+  updatePasswordByToken(data): any {
+    return this.post_request('/user/update_password_by_token/', data);
   }
 
   verify(code): any {

@@ -42,6 +42,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CardCreateComponent } from './dialogs/card-create/card-create.component';
 import { LoginSignupGuardService } from './services/login-signup-guard/login-signup-guard.service';
 import { MatTableModule } from '@angular/material/table';
+import { PasswordResetByTokenComponent } from './routes/password-reset-by-token/password-reset-by-token.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { MatTableModule } from '@angular/material/table';
     LoaderComponent,
     MessageDialogComponent,
     CardCreateComponent,
+    PasswordResetByTokenComponent,
   ],
   imports: [
     HttpClientModule,
