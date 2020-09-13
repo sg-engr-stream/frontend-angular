@@ -43,6 +43,10 @@ import { CardCreateComponent } from './dialogs/card-create/card-create.component
 import { LoginSignupGuardService } from './services/login-signup-guard/login-signup-guard.service';
 import { MatTableModule } from '@angular/material/table';
 import { PasswordResetByTokenComponent } from './routes/password-reset-by-token/password-reset-by-token.component';
+import { EditComponent } from './routes/edit/edit.component';
+import { ContactComponent } from './routes/contact/contact.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -60,6 +64,8 @@ import { PasswordResetByTokenComponent } from './routes/password-reset-by-token/
     MessageDialogComponent,
     CardCreateComponent,
     PasswordResetByTokenComponent,
+    EditComponent,
+    ContactComponent,
   ],
   imports: [
     HttpClientModule,
@@ -85,6 +91,8 @@ import { PasswordResetByTokenComponent } from './routes/password-reset-by-token/
     MatTableModule,
     MatRadioModule,
     MatListModule,
+    MatSliderModule,
+    MatSlideToggleModule,
   ],
   providers: [AuthGuardService, LoginSignupGuardService, CommonService, RequestsService, CookieService, LoaderService, {
     provide: HTTP_INTERCEPTORS,

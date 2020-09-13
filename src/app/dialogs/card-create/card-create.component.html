@@ -13,12 +13,6 @@
     </mat-form-field>
   </mat-card>
   <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-    <button mat-flat-button color="accent">Card ID</button>
-    <mat-form-field>
-      <input matInput [disabled]="true" [value]="data.message.card_id">
-    </mat-form-field>
-  </mat-card>
-  <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
     <button mat-flat-button color="accent" (click)="openInNewTab('shortUrl')"><div class="d-flex">Short<span class="red">Url</span></div></button>
     <mat-form-field>
       <input matInput [disabled]="true" [value]="data.message.short_url">

@@ -84,7 +84,10 @@ export class RequestsService {
   }
 
   getCardDetails(cardId): any {
-    return this.get_request('/card/id/' + cardId);
+    if (typeof cardId === typeof 'abc') {
+      cardId = {card_id: [cardId]};
+    }
+    return this.post_request('/card/id/', cardId);
   }
 
   getRedirectUrl(shortUrl): any {

@@ -26,6 +26,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -59,6 +61,8 @@ getTestBed().initTestEnvironment(
     MatRadioModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatSliderModule,
+    MatSlideToggleModule,
   ],
   platformBrowserDynamicTesting([
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true }, },

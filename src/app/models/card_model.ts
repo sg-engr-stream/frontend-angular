@@ -11,4 +11,5 @@ export interface Card {
   status: boolean;
   date_created: string;
   last_updated: string;
+  access_type: string;
 }

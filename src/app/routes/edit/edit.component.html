@@ -1,0 +1,108 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <mat-card *ngIf="dataValid === true">
+    <mat-card-header fxLayoutAlign="center center">
+      <img mat-card-avatar [src]="cardDetails.icon_url == null ? '/favicon.ico' : cardDetails.icon_url">
+      <mat-card-title fxLayout="row">
+        <input matInput [value]="cardDetails.title" disabled>
+        <button mat-icon-button matSuffix tabindex="-1">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutGap="15px">
+      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <mat-form-field appearance="outline">
+          <mat-label>Created By</mat-label>
+          <input matInput placeholder="Created By" [value]="cardDetails.created_by" disabled>
+          <button mat-icon-button matSuffix tabindex="-1" disabled>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Owner</mat-label>
+          <input matInput placeholder="Expiry" [value]="cardDetails.owner" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxLayoutAlign="center center">
+        <mat-form-field appearance="outline" class="input-col">
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Description" [value]="cardDetails.description" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxLayoutAlign="center center">
+        <mat-form-field appearance="outline" class="input-col">
+          <mat-label>RedirectUrl</mat-label>
+          <input matInput placeholder="RedirectUrl" [value]="cardDetails.redirect_url" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <mat-form-field appearance="outline" fxFlex.gt-sm="50%" fxFlex.lt-sm="100%">
+          <mat-label>ShortUrl Origin</mat-label>
+          <input matInput placeholder="ShortUrl Origin" [value]="origin" disabled fxFlex.gt-sm="50%" fxFlex.lt-sm="100%">
+          <button mat-icon-button matSuffix tabindex="-1" disabled>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline" fxFlex="50%">
+          <mat-label>ShortUrl</mat-label>
+          <input matInput placeholder="ShortUrl" [value]="cardDetails.short_url" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxLayoutAlign="center center">
+        <mat-form-field appearance="outline" class="input-col">
+          <mat-label>IconUrl</mat-label>
+          <input matInput placeholder="IconUrl" [value]="cardDetails.icon_url" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <mat-form-field appearance="outline">
+          <mat-label>Expiry</mat-label>
+          <input matInput placeholder="Expiry" [value]="cardDetails.expiry" type="datetime-local" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-slide-toggle fxFlex="50%" disabled></mat-slide-toggle>
+          <input fxFlex="50%" matInput placeholder="Status" [value]="cardDetails.status ? 'Enabled': 'Disabled'" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+        </mat-form-field>
+
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="input-col">
+          <mat-label>Access List</mat-label>
+          <input matInput placeholder="Access List" disabled>
+          <button mat-icon-button matSuffix tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="dataValid === false">
+    <mat-card-header fxLayoutAlign="center center">
+      <mat-card-title>Invalid</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      Item does not exist or you might not have permission.
+    </mat-card-content>
+  </mat-card>
+</div>
