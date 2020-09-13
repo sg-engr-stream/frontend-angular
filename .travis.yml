@@ -1,6 +1,3 @@
-dist: trusty
-sudo: required
-
 language: node_js
 node_js:
   - '12'
@@ -20,8 +17,11 @@ script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --codeCoverage=true
 
 before_install:
-  - npm install
+  - npm install -g @angular/cli
   - pip install --user codecov
+install: npm install
+after_script:
+  - ng build --aot --prod
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 deploy:
