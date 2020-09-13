@@ -3,10 +3,19 @@
         <mat-icon>home</mat-icon>
         <span class="nav-caption">Home</span>
     </a>
-    <a mat-list-item routerLink="/app/login" (click)="onSidenavClose()">
+    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/profile" (click)="onSidenavClose()">
+        <span class="nav-caption">Profile</span>
+    </a>
+    <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/login" (click)="onSidenavClose()">
         <span class="nav-caption">Login</span>
     </a>
-    <a mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
+    <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
         <span class="nav-caption">SignUp</span>
+    </a>
+    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
+        <span class="nav-caption">Logout</span>
+    </a>
+    <a mat-list-item routerLink="/app/contact" (click)="onSidenavClose()">
+        <span class="nav-caption">Contact</span>
     </a>
 </mat-nav-list>

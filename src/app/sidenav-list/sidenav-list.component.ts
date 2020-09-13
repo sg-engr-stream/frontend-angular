@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CommonService } from '../services/common/common.service';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -10,7 +11,7 @@ export class SidenavListComponent implements OnInit {
   public onSidenavClose = () => {
     this.sidenavClose.emit();
   }
-  constructor() { }
+  constructor(public common: CommonService) { }
 
   ngOnInit(): void {
   }
