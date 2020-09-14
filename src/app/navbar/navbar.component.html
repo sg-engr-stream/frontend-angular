@@ -5,7 +5,7 @@
         <button mat-mini-fab mat-icon-button color="default" (click)="onToggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
-        <button *ngIf="common.isLoggedIn" mat-button color="default">Hello, {{common.name}}</button>
+        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">Hello, {{common.name}}</button>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <button mat-mini-fab color="default" routerLink="/">

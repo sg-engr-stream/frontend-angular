@@ -8,7 +8,10 @@ import { CommonService } from '../services/common/common.service';
 })
 export class SidenavListComponent implements OnInit {
   @Output() public sidenavClose = new EventEmitter();
-  public onSidenavClose = () => {
+  public onSidenavClose = (logout = false) => {
+    if (logout) {
+      this.common.logout();
+    }
     this.sidenavClose.emit();
   }
   constructor(public common: CommonService) { }

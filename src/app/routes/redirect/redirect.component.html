@@ -1,5 +1,6 @@
 <mat-card>
-  <mat-card-content *ngIf="redirectGetStatus == null">Getting redirect Url</mat-card-content>
+  <mat-card-content *ngIf="redirectGetStatus == null && !expiredRedirect">Getting redirect Url</mat-card-content>
   <mat-card-content *ngIf="redirectGetStatus == true">Redirecting to {{redirectUrl}}</mat-card-content>
   <mat-card-content *ngIf="redirectGetStatus == false">Redirecting Failed</mat-card-content>
+  <mat-card-content *ngIf="expiredRedirect">Redirect Expired</mat-card-content>
 </mat-card>

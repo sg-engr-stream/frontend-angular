@@ -12,7 +12,7 @@
     <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
         <span class="nav-caption">SignUp</span>
     </a>
-    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
+    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose(true)">
         <span class="nav-caption">Logout</span>
     </a>
     <a mat-list-item routerLink="/app/contact" (click)="onSidenavClose()">

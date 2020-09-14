@@ -16,7 +16,7 @@ export class RequestsService {
   }
 
   setCookie(username, secret): void {
-    this.cookie.set('token', btoa(username + ':' + secret));
+    this.cookie.set('token', btoa(username + ':' + secret), 10, '/');
   }
 
   setHeaders(): any {
@@ -45,9 +45,15 @@ export class RequestsService {
     this.setCookie(username, secret);
     this.post_request('/user/login_check/' + username,  { secret }).subscribe(res => {
       this.common.setUserDetails(res.result);
-    }, () => {
-      this.common.openDialogMessage('Login Failed', 'User or Password is wrong');
+    }, err => {
+      let msg;
+      if (err.error.statusCode >= 400 && err.error.statusCode < 500) {
+        msg = 'User or Password is wrong';
+      } else {
+        msg = err.error.response;
+      }
       this.common.clearCookies();
+      this.common.openDialogMessage('Login Failed', msg);
     });
   }
 
@@ -57,8 +63,8 @@ export class RequestsService {
     this.post_request('/user/add/', data).subscribe(res => {
       this.common.setUserDetails(res.result);
     }, err => {
-      this.common.openDialogMessage('SignUp Failed', err.error.message);
       this.common.clearCookies();
+      this.common.openDialogMessage('SignUp Failed', err.error.message);
     });
   }
 
@@ -108,5 +114,9 @@ export class RequestsService {
 
   verify(code): any {
     return this.post_request('/user/action/verify/', {username: this.common.username, verification_code: code});
+  }
+
+  getProfileData(): any {
+    return this.post_request('/profile/get_data/', {username: this.common.username});
   }
 }

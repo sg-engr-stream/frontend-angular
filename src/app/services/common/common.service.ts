@@ -5,6 +5,7 @@ import { CardCreateComponent } from '../../dialogs/card-create/card-create.compo
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
+import { EditComponent } from '../../routes/edit/edit.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class CommonService {
   emailVerified: boolean;
   email: string;
   onlyWidget = false;
-  constructor(public dialog: MatDialog, private cookie: CookieService, private router: Router) {
+  constructor(private dialog: MatDialog, private cookie: CookieService, private router: Router) {
     if (this.cookie.check('name')) {
       this.name = this.cookie.get('name');
     }
@@ -27,11 +28,15 @@ export class CommonService {
     if (this.cookie.check('verified')) {
       this.emailVerified = this.cookie.get('verified') === '1';
     }
+    if (this.cookie.check('username')) {
+      this.username = this.cookie.get('username');
+    }
   }
 
   openDialogMessage(title, message): void {
     const dialogRef = this.dialog.open(MessageDialogComponent, {
-      width: '400px',
+      width: '90%',
+      maxWidth: '400px',
       data: {title, message}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -41,7 +46,7 @@ export class CommonService {
 
   openDialogCardCreate(message): void {
     const dialogRef = this.dialog.open(CardCreateComponent, {
-      width: '80%',
+      width: '90%',
       data: {message}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -55,17 +60,16 @@ export class CommonService {
 
   logout(): void {
     this.isLoggedIn = false;
-    this.cookie.delete('token');
-    this.cookie.delete('name');
-    this.cookie.delete('loggedIn');
+    this.clearCookies();
     this.router.navigate(['/']);
   }
 
   setUserDetails(res, redirect = true): void {
     const user = res as User;
-    this.cookie.set('name', user.name.toUpperCase());
-    this.cookie.set('loggedIn', '1');
-    this.cookie.set('verified', user.verified ? '1' : '0');
+    this.cookie.set('name', user.name.toUpperCase(), 10, '/');
+    this.cookie.set('loggedIn', '1', 10, '/');
+    this.cookie.set('verified', user.verified ? '1' : '0', 10, '/');
+    this.cookie.set('username', user.username, 10, '/');
     this.name = user.name.toUpperCase();
     this.username = user.username;
     this.email = user.email;
@@ -77,8 +81,9 @@ export class CommonService {
   }
 
   clearCookies(): void {
-    this.cookie.delete('name');
-    this.cookie.delete('loggedIn');
-    this.cookie.delete('verified');
+    this.cookie.deleteAll();
+    this.cookie.deleteAll('/');
+    this.cookie.deleteAll('/app');
+    this.cookie.deleteAll('/*');
   }
 }

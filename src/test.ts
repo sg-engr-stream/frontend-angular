@@ -28,6 +28,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -45,6 +48,7 @@ getTestBed().initTestEnvironment(
     ReactiveFormsModule,
     HttpClientTestingModule,
     RouterTestingModule,
+    MatExpansionModule,
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
@@ -63,6 +67,8 @@ getTestBed().initTestEnvironment(
     MatProgressSpinnerModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatSelectModule,
+    MatTreeModule,
   ],
   platformBrowserDynamicTesting([
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true }, },

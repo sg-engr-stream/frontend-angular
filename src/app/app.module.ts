@@ -36,7 +36,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderService } from './services/loader/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CardCreateComponent } from './dialogs/card-create/card-create.component';
@@ -47,6 +47,10 @@ import { EditComponent } from './routes/edit/edit.component';
 import { ContactComponent } from './routes/contact/contact.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DialogService } from './services/dialog/dialog.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -76,6 +80,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    MatExpansionModule,
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
@@ -93,12 +98,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatListModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatSelectModule,
+    MatTreeModule,
   ],
   providers: [AuthGuardService, LoginSignupGuardService, CommonService, RequestsService, CookieService, LoaderService, {
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true
-  }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } }],
+  }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
+    { provide: MAT_DIALOG_DATA, useValue: null }, DialogService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

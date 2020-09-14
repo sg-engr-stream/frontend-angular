@@ -1,0 +1,17 @@
+.mat-card-container {
+  max-width: 400px;
+  width: 100%;
+  mat-card {
+    width: 100%;
+    .expiry {
+      padding: 0 5px;
+    }
+    .card-description {
+      padding: 0 5px;
+    }
+  }
+}
+.description {
+  color: rgba(0,0,0,.54);
+  padding-left: 5px;
+}

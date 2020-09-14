@@ -82,11 +82,9 @@
           <button mat-icon-button matSuffix tabindex="-1">
             <mat-icon>edit</mat-icon>
           </button>
-
         </mat-form-field>
-
       </div>
-      <div>
+      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
         <mat-form-field appearance="outline" class="input-col">
           <mat-label>Access List</mat-label>
           <input matInput placeholder="Access List" disabled>
@@ -96,6 +94,11 @@
         </mat-form-field>
       </div>
     </mat-card-content>
+    <mat-dialog-actions align="center" *ngIf="data !== null">
+  <button mat-flat-button color="primary" mat-dialog-close>Close
+    <mat-icon inline="true">close</mat-icon>
+  </button>
+</mat-dialog-actions>
   </mat-card>
   <mat-card *ngIf="dataValid === false">
     <mat-card-header fxLayoutAlign="center center">

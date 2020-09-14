@@ -11,16 +11,22 @@ import { CommonService } from '../../services/common/common.service';
 export class RedirectComponent implements OnInit {
 
   redirectUrl: string;
-  redirectGetStatus: boolean =  null;
+  redirectGetStatus: boolean = null;
+  expiredRedirect = false;
+
   constructor(private routes: ActivatedRoute, private request: RequestsService, private common: CommonService) {
   }
 
   ngOnInit(): void {
     this.routes.params.subscribe(params => {
       this.request.getRedirectUrl(params.shortUrl).subscribe(res => {
-        this.redirectUrl = res.redirect_url;
-        this.redirectGetStatus = true;
-        window.open(res.redirect_url, '_self');
+        if (res.result.toLowerCase() === 'expired') {
+          this.expiredRedirect = true;
+        } else {
+          this.redirectUrl = res.redirect_url;
+          this.redirectGetStatus = true;
+          window.open(res.redirect_url, '_self');
+        }
       }, () => {
         this.redirectGetStatus = false;
         this.common.openDialogMessage('Redirect Failed', window.location.href + ' does not exist or you do not have the permission to access it.')
