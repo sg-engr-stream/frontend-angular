@@ -119,4 +119,18 @@ export class RequestsService {
   getProfileData(): any {
     return this.post_request('/profile/get_data/', {username: this.common.username});
   }
+
+  createGroup(title, description, iconUrl, cardIds): any {
+    const data = {
+      username: this.common.username,
+      title,
+      description,
+      icon_url: iconUrl,
+      card_ids: cardIds
+    };
+    if (iconUrl.length === 0) {
+      delete data.icon_url;
+    }
+    return this.post_request('/group/add/', data);
+  }
 }

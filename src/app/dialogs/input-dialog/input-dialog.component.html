@@ -1,0 +1,21 @@
+<div mat-dialog-title>Group Details</div>
+<mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Title" [(ngModel)]="data.title" name="fieldValue" required>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Description" [(ngModel)]="data.description" name="fieldValue" required>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Icon Url</mat-label>
+    <input matInput placeholder="Icon Url" [(ngModel)]="data.iconUrl" name="fieldValue">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-flat-button color="primary" type="submit" [mat-dialog-close]="data" [disabled]="data.title.length === 0 || data.description.length === 0">Submit</button>
+  <button mat-flat-button color="primary" mat-dialog-close>Close
+    <mat-icon inline="true">close</mat-icon>
+  </button>
+</mat-dialog-actions>

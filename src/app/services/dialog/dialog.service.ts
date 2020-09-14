@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EditComponent } from '../../routes/edit/edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { InputDialogComponent } from '../../dialogs/input-dialog/input-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,15 @@ export class DialogService {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog Closed', result);
     });
+  }
+
+  openDialogInput(title, description, iconUrl): any {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: '90%',
+      maxHeight: '500px',
+      maxWidth: '250px',
+      data: {title, description, iconUrl}
+    });
+    return dialogRef.afterClosed();
   }
 }

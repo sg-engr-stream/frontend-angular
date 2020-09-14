@@ -31,6 +31,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+import { AgGridModule } from 'ag-grid-angular';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -48,6 +49,7 @@ getTestBed().initTestEnvironment(
     ReactiveFormsModule,
     HttpClientTestingModule,
     RouterTestingModule,
+    AgGridModule,
     MatExpansionModule,
     MatToolbarModule,
     MatIconModule,

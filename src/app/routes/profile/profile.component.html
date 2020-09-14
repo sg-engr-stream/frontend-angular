@@ -1,56 +1,46 @@
 <div class="container" fxLayoutGap="20px">
-  <mat-accordion *ngFor="let key of ['owner', 'shared_with_me']">
+  <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title *ngIf="key == 'owner'">
-          Cards Owned<span class="description">- Listing cards which you own ({{sortedResults[key].length}})</span>
-        </mat-panel-title>
-        <mat-panel-title *ngIf="key == 'shared_with_me'">
-          Cards Shared With Me<span class="description">- Listing cards for which you have access ({{sortedResults[key].length}})</span>
+        <mat-panel-title>
+          Cards<span class="description">- Listing cards which you own or have access ({{rowDataCard.length}})</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
-        <div class="mat-card-container" fxLayoutAlign="stretch" *ngFor="let card of sortedResults[key]">
-          <mat-card>
-            <mat-card-content>
-              <p fxLayout="row">
-                <a [href]="card.short_url" target="_blank"><button mat-flat-button color="accent">{{card.title}}
-                  <mat-icon inline="true">open_in_new</mat-icon></button></a>
-              </p>
-              <p class="expiry">Expiry: <span [ngClass]="expired(card.expiry)? 'red': 'green'">{{getExpiryFormatted(card.expiry)}}</span></p>
-            </mat-card-content>
-            <mat-card-content fxLayoutAlign="center">
-              <div class="card-description">{{card.description}}</div>
-            </mat-card-content>
-            <mat-card-content>
-              <mat-card-actions align="center">
-                <button mat-raised-button color="primary" (click)="openCardInDialog(card)">Open</button>
-                <button mat-raised-button color="primary" (click)="openWidget(card.card_id)">Widget
-                  <mat-icon>open_in_new</mat-icon></button>
-              </mat-card-actions>
-            </mat-card-content>
-          </mat-card>
-        </div>
+      <div>
+        <button mat-raised-button color="primary" [disabled]="groupCreateDisabled()" (click)="groupCreateAction()">Create Group</button>
+      </div>
+      <div>
+        <ag-grid-angular
+          style="width: 100%; height: 500px;"
+          class="ag-theme-alpine"
+          [rowData]="rowDataCard"
+          [columnDefs]="columnDefsCard"
+          [gridOptions]="gridOptionsCard"
+          rowSelection="multiple"
+          [rowMultiSelectWithClick]="true"
+          [frameworkComponents]="frameworkComponents"
+          (gridReady)="gridReadyCard()"
+          (firstDataRendered)="gridReadyCard()"
+        >
+        </ag-grid-angular>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
-  <mat-accordion *ngFor="let key of ['groups_owned', 'groups_shared_with_me']">
+  <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title *ngIf="key == 'groups_owned'">
-          Group Owned<span class="description">- Listing groups which you own ({{sortedResults[key].length}})</span>
-        </mat-panel-title>
-        <mat-panel-title *ngIf="key == 'groups_shared_with_me'">
-          Group Shared With Me <span class="description">- Listing groups you which you own access ({{sortedResults[key].length}})</span>
+        <mat-panel-title>
+          Groups<span class="description">- Listing groups which you own or have access ({{rowDataGroup.length}})</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div fxLayoutAlign="center">
         <mat-form-field appearance="fill">
-                <mat-label>Select an option</mat-label>
-                <mat-select [(value)]="selectedGroupOwned">
-                  <mat-option *ngFor="let opt of sortedResults[key]" [value]="opt['group_id']">{{opt['title']}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+          <mat-label>Select an option</mat-label>
+          <mat-select [(value)]="selectedGroupOwned">
+            <mat-option *ngFor="let opt of groupOptionListOwner"
+                        [value]="opt['group_id']">{{opt['title']}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
         <div class="mat-card-container" fxLayoutAlign="stretch">

@@ -51,6 +51,9 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogService } from './services/dialog/dialog.service';
 import { MatSelectModule } from '@angular/material/select';
+import { AgGridModule } from 'ag-grid-angular';
+import { BtnCellRendererComponent } from './renderer/btn-cell-renderer/btn-cell-renderer.component';
+import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,8 @@ import { MatSelectModule } from '@angular/material/select';
     PasswordResetByTokenComponent,
     EditComponent,
     ContactComponent,
+    BtnCellRendererComponent,
+    InputDialogComponent,
   ],
   imports: [
     HttpClientModule,
@@ -77,6 +82,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AgGridModule.withComponents([BtnCellRendererComponent]),
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
