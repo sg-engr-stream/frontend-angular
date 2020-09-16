@@ -54,6 +54,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { AgGridModule } from 'ag-grid-angular';
 import { BtnCellRendererComponent } from './renderer/btn-cell-renderer/btn-cell-renderer.component';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
+import 'ag-grid-enterprise';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.compon
     ContactComponent,
     BtnCellRendererComponent,
     InputDialogComponent,
+    ConfirmComponent,
   ],
   imports: [
     HttpClientModule,

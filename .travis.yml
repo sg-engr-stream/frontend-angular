@@ -26,6 +26,8 @@ deploy:
   provider: heroku
   api_key: 8c55cc26-9ec7-4dcc-825a-fbb879174dff
   app: short-url-front-stage
+  run: 
+    - python remove_console_statements_ag_grid.py
 
 notifications:
   email:

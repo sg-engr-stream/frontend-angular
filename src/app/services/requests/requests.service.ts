@@ -133,4 +133,8 @@ export class RequestsService {
     }
     return this.post_request('/group/add/', data);
   }
+
+  getCardDetailsByGroupIds(groupIds): any {
+    return this.post_request('/group/id/', {group_ids: groupIds});
+  }
 }

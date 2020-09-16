@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { CommonService } from '../../services/common/common.service';
 
 @Component({
   selector: 'app-btn-cell-renderer',
@@ -8,9 +9,9 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 })
 export class BtnCellRendererComponent implements ICellRendererAngularComp, OnInit {
 
-  private params: any;
+  params: any;
 
-  constructor() {
+  constructor(private common: CommonService) {
   }
 
   agInit(params: any): void {
@@ -31,10 +32,19 @@ export class BtnCellRendererComponent implements ICellRendererAngularComp, OnIni
   }
 
   redirectShortUrl($event: MouseEvent): void {
-    window.open(window.location.origin + '/' + this.params.data.short_url);
+    if (this.getRedirectStatus()) {
+      window.open(window.location.origin + '/' + this.params.data.short_url);
+    } else {
+      this.common.openDialogMessage('Cannot Redirect', 'Card is deactivated or expired');
+    }
   }
 
   ngOnInit(): void {
+  }
+
+  getRedirectStatus(): boolean {
+    const check = new Date(this.params.data.expiry) <= new Date(new Date().toUTCString());
+    return (this.params.data.expiry === null || !check) && this.params.data.status;
   }
 
 }

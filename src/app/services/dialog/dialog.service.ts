@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { EditComponent } from '../../routes/edit/edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InputDialogComponent } from '../../dialogs/input-dialog/input-dialog.component';
+import { ConfirmComponent } from '../../dialogs/confirm/confirm.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,14 @@ export class DialogService {
       maxHeight: '500px',
       maxWidth: '250px',
       data: {title, description, iconUrl}
+    });
+    return dialogRef.afterClosed();
+  }
+
+  openConfirmationDialog(): any {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '250px',
+      maxHeight: (window.screen.height - 260) + 'px'
     });
     return dialogRef.afterClosed();
   }
