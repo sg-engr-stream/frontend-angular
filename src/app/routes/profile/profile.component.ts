@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
           return 'Owner';
         } else if (params.data.access_type === null) {
           return 'RW';
-        } else return params.data.access_type;
+        } else { return params.data.access_type; }
       }
     },
     {
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit {
   }
 
   expiryColor(params): any {
-      let color = '';
+      let color;
       const check = new Date(params.value) <= new Date(new Date().toUTCString());
       if (params.value == null || !check) {
         color = 'green';
@@ -284,12 +284,8 @@ export class ProfileComponent implements OnInit {
     this.updateCardListNotInGroup();
   }
 
-  fetchGroupDetailFromApi(): any {
-
-  }
-
   deleteGroup(): void {
-    this.dialogService.openConfirmationDialog().subscribe(res => {
+    this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
         const itemFound = this.selectGroupOptionList.indexOf(this.selectedGroupDetails);
         if (itemFound >= 0) {
@@ -309,7 +305,7 @@ export class ProfileComponent implements OnInit {
   }
 
   activateDeactivateGroup(): void {
-    this.dialogService.openConfirmationDialog().subscribe(res => {
+    this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
         this.selectedGroupDetails.status = !this.selectedGroupDetails.status;
         this.allLoadedGroupData[this.selectedGroup].group_details.status = this.selectedGroupDetails.status;
@@ -318,7 +314,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteCardFromGroup(): void {
-    this.dialogService.openConfirmationDialog().subscribe(res => {
+    this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
         const selectedRows = this.gridOptionsGroup.api.getSelectedRows();
         selectedRows.forEach(item => {

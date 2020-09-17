@@ -3,9 +3,16 @@
     <mat-card-header fxLayoutAlign="center center">
       <img mat-card-avatar [src]="cardDetails.icon_url == null ? '/favicon.ico' : cardDetails.icon_url">
       <mat-card-title fxLayout="row">
-        <input matInput [value]="cardDetails.title" disabled>
-        <button mat-icon-button matSuffix tabindex="-1">
-          <mat-icon>edit</mat-icon>
+        <input matInput placeholder="Title" [(ngModel)]="cardDetails.title" [disabled]="!editable.title"
+               (keyup.enter)="updateFieldByKey('title')">
+        <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('title')"
+                *ngIf="editable.title">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-mini-fab [color]="editable.title ? 'warn': 'primary'" matSuffix tabindex="-1"
+                (click)="updateFieldByKey('title', false)">
+          <mat-icon *ngIf="editable.title">close</mat-icon>
+          <mat-icon *ngIf="!editable.title">edit</mat-icon>
         </button>
       </mat-card-title>
     </mat-card-header>
@@ -17,88 +24,158 @@
           <button mat-icon-button matSuffix tabindex="-1" disabled>
           </button>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="input-col-max d-flex">
           <mat-label>Owner</mat-label>
-          <input matInput placeholder="Expiry" [value]="cardDetails.owner" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="Owner" [(ngModel)]="cardDetails.owner" [disabled]="!editable.owner"
+                 (keyup.enter)="updateFieldByKey('owner')">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('owner')"
+                  *ngIf="editable.owner">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.owner ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('owner', false)">
+            <mat-icon *ngIf="editable.owner">close</mat-icon>
+            <mat-icon *ngIf="!editable.owner">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayoutAlign="center center">
         <mat-form-field appearance="outline" class="input-col">
           <mat-label>Description</mat-label>
-          <input matInput placeholder="Description" [value]="cardDetails.description" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="Description" [(ngModel)]="cardDetails.description"
+                 (keyup.enter)="updateFieldByKey('description')" [disabled]="!editable.description">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('description')"
+                  *ngIf="editable.description">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.description ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('description', false)">
+            <mat-icon *ngIf="editable.description">close</mat-icon>
+            <mat-icon *ngIf="!editable.description">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayoutAlign="center center">
         <mat-form-field appearance="outline" class="input-col">
           <mat-label>RedirectUrl</mat-label>
-          <input matInput placeholder="RedirectUrl" [value]="cardDetails.redirect_url" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="RedirectUrl" [(ngModel)]="cardDetails.redirect_url"
+                 (keyup.enter)="updateFieldByKey('redirectUrl')" [disabled]="!editable.redirectUrl">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('redirectUrl')"
+                  *ngIf="editable.redirectUrl">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.redirectUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('redirectUrl', false)">
+            <mat-icon *ngIf="editable.redirectUrl">close</mat-icon>
+            <mat-icon *ngIf="!editable.redirectUrl">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
         <mat-form-field appearance="outline" fxFlex.gt-sm="50%" fxFlex.lt-sm="100%">
           <mat-label>ShortUrl Origin</mat-label>
-          <input matInput placeholder="ShortUrl Origin" [value]="origin" disabled fxFlex.gt-sm="50%" fxFlex.lt-sm="100%">
+          <input matInput [(ngModel)]="origin" disabled>
           <button mat-icon-button matSuffix tabindex="-1" disabled>
           </button>
         </mat-form-field>
-        <mat-form-field appearance="outline" fxFlex="50%">
+        <mat-form-field appearance="outline" fxFlex="50%" class="input-col-max d-flex">
           <mat-label>ShortUrl</mat-label>
-          <input matInput placeholder="ShortUrl" [value]="cardDetails.short_url" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="ShortUrl" [(ngModel)]="cardDetails.short_url"
+                 (keyup.enter)="checkShortUrlAvailabilityAndUpdate()" [disabled]="!editable.shortUrl">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="checkShortUrlAvailabilityAndUpdate()"
+                  *ngIf="editable.shortUrl">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.shortUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('shortUrl', false)">
+            <mat-icon *ngIf="editable.shortUrl">close</mat-icon>
+            <mat-icon *ngIf="!editable.shortUrl">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayoutAlign="center center">
         <mat-form-field appearance="outline" class="input-col">
           <mat-label>IconUrl</mat-label>
-          <input matInput placeholder="IconUrl" [value]="cardDetails.icon_url" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="IconUrl" [(ngModel)]="cardDetails.icon_url"
+                 (keyup.enter)="updateFieldByKey('iconUrl')" [disabled]="!editable.iconUrl">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('iconUrl')"
+                  *ngIf="editable.iconUrl">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.iconUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('iconUrl', false)">
+            <mat-icon *ngIf="editable.iconUrl">close</mat-icon>
+            <mat-icon *ngIf="!editable.iconUrl">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="input-col-max d-flex">
           <mat-label>Expiry</mat-label>
-          <input matInput placeholder="Expiry" [value]="cardDetails.expiry" type="datetime-local" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <input matInput placeholder="Expiry" [(ngModel)]="cardDetails.expiry" type="datetime-local"
+                 (keyup.enter)="updateFieldByKey('expiry')" [disabled]="!editable.expiry">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('expiry')"
+                  *ngIf="editable.expiry">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.expiry ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('expiry', false)">
+            <mat-icon *ngIf="editable.expiry">close</mat-icon>
+            <mat-icon *ngIf="!editable.expiry">edit</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="input-col-max d-flex">
           <mat-label>Status</mat-label>
-          <mat-slide-toggle fxFlex="50%" disabled></mat-slide-toggle>
-          <input fxFlex="50%" matInput placeholder="Status" [value]="cardDetails.status ? 'Enabled': 'Disabled'" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <mat-slide-toggle fxFlex="50%" [(ngModel)]="cardDetails.status" color="primary"
+                            (change)="updateFieldByKey('status')" [disabled]="!editable.status"></mat-slide-toggle>
+          <input fxFlex="50%" matInput placeholder="Status" [value]="cardDetails.status ? 'Enabled': 'Disabled'"
+                 disabled>
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="editable.status = !editable.status"
+                  *ngIf="editable.status">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.status ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="updateFieldByKey('status', false)">
+            <mat-icon *ngIf="editable.status">close</mat-icon>
+            <mat-icon *ngIf="!editable.status">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
         <mat-form-field appearance="outline" class="input-col">
-          <mat-label>Access List</mat-label>
-          <input matInput placeholder="Access List" disabled>
-          <button mat-icon-button matSuffix tabindex="-1">
-            <mat-icon>edit</mat-icon>
+          <mat-label>Add Access</mat-label>
+          <input matInput placeholder="Add Access" [(ngModel)]="usernameForAccess" [disabled]="!editable.accessList"
+          (keyup.enter)="addUserForCardAccess()">
+          <button mat-mini-fab color="primary" matSuffix tabindex="-1"
+                  (click)="addUserForCardAccess()"
+                  *ngIf="editable.accessList" [disabled]="usernameForAccess.length === 0">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab [color]="editable.accessList ? 'warn': 'primary'" matSuffix tabindex="-1"
+                  (click)="editable.accessList = !editable.accessList">
+            <mat-icon *ngIf="editable.accessList">close</mat-icon>
+            <mat-icon *ngIf="!editable.accessList">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
+      <div>
+        <li fxLayout="row wrap" fxLayoutAlign="space-between center" *ngFor="let access of cardDetails.user_access_list">
+          <span>{{access.username}}</span>
+          <span>
+            RO<mat-slide-toggle (change)="changeUserAccessType(access)" class="access-slide" color="primary"></mat-slide-toggle>RW
+            <button mat-mini-fab color='warn' matSuffix tabindex="-1" (click)="deleteUserAccess(access)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </span>
+        </li>
+      </div>
     </mat-card-content>
+
     <mat-dialog-actions align="center" *ngIf="data !== null">
-  <button mat-flat-button color="primary" mat-dialog-close>Close
-    <mat-icon inline="true">close</mat-icon>
-  </button>
-</mat-dialog-actions>
+      <button mat-flat-button color="primary" mat-dialog-close>Close
+        <mat-icon inline="true">close</mat-icon>
+      </button>
+    </mat-dialog-actions>
   </mat-card>
   <mat-card *ngIf="dataValid === false">
     <mat-card-header fxLayoutAlign="center center">

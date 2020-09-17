@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { EditComponent } from '../../routes/edit/edit.component';
+import { ConfirmComponent } from '../../dialogs/confirm/confirm.component';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,14 @@ export class CommonService {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog Closed', result);
     });
+  }
+
+  openConfirmationDialog(): any {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '250px',
+      maxHeight: (window.screen.height - 260) + 'px'
+    });
+    return dialogRef.afterClosed();
   }
 
   isUserLoggedIn(): boolean {

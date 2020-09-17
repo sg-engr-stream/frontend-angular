@@ -31,12 +31,4 @@ export class DialogService {
     });
     return dialogRef.afterClosed();
   }
-
-  openConfirmationDialog(): any {
-    const dialogRef = this.dialog.open(ConfirmComponent, {
-      width: '250px',
-      maxHeight: (window.screen.height - 260) + 'px'
-    });
-    return dialogRef.afterClosed();
-  }
 }

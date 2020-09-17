@@ -12,4 +12,5 @@ export interface Card {
   date_created: string;
   last_updated: string;
   access_type: string;
+  user_access_list: any;
 }

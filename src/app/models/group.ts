@@ -7,4 +7,5 @@ export interface Group {
   status: boolean;
   date_created: string;
   last_updated: string;
+  user_access_list: any;
 }

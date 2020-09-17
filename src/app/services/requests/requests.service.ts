@@ -137,4 +137,12 @@ export class RequestsService {
   getCardDetailsByGroupIds(groupIds): any {
     return this.post_request('/group/id/', {group_ids: groupIds});
   }
+
+  updateCardDetails(cardId, data): any {
+    return this.post_request('/card/update/' + cardId, data);
+  }
+
+  addCardAccess(data): any {
+    return this.post_request('/card_access/add/', data);
+  }
 }
