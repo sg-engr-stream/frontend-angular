@@ -11,15 +11,13 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  openDialogCardDetails(cardDetails): void {
+  openDialogCardDetails(cardDetails): any {
     const dialogRef = this.dialog.open(EditComponent, {
       width: '90%',
       maxHeight: (window.screen.height - 260) + 'px',
       data: {cardDetails}
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog Closed', result);
-    });
+    return dialogRef.afterClosed();
   }
 
   openDialogInput(title, description, iconUrl): any {

@@ -54,7 +54,7 @@ export class WidgetComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   redirect(): void {
-    window.open(this.cardDetails.redirect_url);
+    window.open(this.cardDetails.short_url);
   }
 
 }

@@ -5,25 +5,31 @@
         <button mat-mini-fab mat-icon-button color="default" (click)="onToggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
-        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">Hello, {{common.name}}</button>
+        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">
+          Hello, {{common.name}}</button>
       </div>
-      <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <button mat-mini-fab color="default" routerLink="/">
-          <mat-icon>home</mat-icon>
-        </button>
-        <a mat-button routerLink="/">Home</a>
-        <div class="flex-spacer"></div>
-        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/login">Login</a>
-        <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/signup">SignUp</a>
-        <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">Hello, {{common.name}}</button>
-        <button mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Profile menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button *ngIf="common.isLoggedIn" mat-menu-item routerLink="/app/profile">Profile</button>
-          <button *ngIf="common.isLoggedIn" mat-menu-item (click)="common.logout()">Logout</button>
-          <button mat-menu-item routerLink="/app/contact">Contact</button>
-        </mat-menu>
+      <div fxFlex fxLayout fxLayoutAlign="space-between center" fxHide.xs>
+        <div>
+          <button mat-mini-fab color="default" routerLink="/">
+            <mat-icon>home</mat-icon>
+          </button>
+          <a mat-button routerLink="/">Home</a>
+        </div>
+        <div>Welcome to N4NITIN</div>
+        <div>
+          <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/login">Login</a>
+          <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/signup">SignUp</a>
+          <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">
+            Hello, {{common.name}}</button>
+          <button mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Profile menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button *ngIf="common.isLoggedIn" mat-menu-item routerLink="/app/profile">Profile</button>
+            <button *ngIf="common.isLoggedIn" mat-menu-item (click)="common.logout()">Logout</button>
+            <button mat-menu-item routerLink="/app/contact">Contact</button>
+          </mat-menu>
+        </div>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

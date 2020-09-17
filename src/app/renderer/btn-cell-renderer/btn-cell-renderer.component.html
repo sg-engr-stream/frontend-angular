@@ -1,9 +1,12 @@
-<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
   <button mat-raised-button color="primary" (click)="btnClickedHandler($event)">Open</button>
+  <button mat-raised-button color="primary" (click)="openEdit($event)">edit
+    <mat-icon [inline]="true">open_in_new</mat-icon>
+  </button>
   <button mat-raised-button color="primary" (click)="openWidget($event)">Widget
-    <mat-icon>open_in_new</mat-icon>
+    <mat-icon [inline]="true">open_in_new</mat-icon>
   </button>
   <button mat-raised-button color="primary" [disabled]="!getRedirectStatus()" (click)="redirectShortUrl($event)">ShortUrl
-    <mat-icon>open_in_new</mat-icon>
+    <mat-icon [inline]="true">open_in_new</mat-icon>
   </button>
 </div>

@@ -56,6 +56,8 @@ import { BtnCellRendererComponent } from './renderer/btn-cell-renderer/btn-cell-
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import 'ag-grid-enterprise';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { AccessListDialogComponent } from './dialogs/access-list-dialog/access-list-dialog.component';
+import { Dialog2Service } from './services/dialog2/dialog2.service';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,7 @@ import { ConfirmComponent } from './dialogs/confirm/confirm.component';
     BtnCellRendererComponent,
     InputDialogComponent,
     ConfirmComponent,
+    AccessListDialogComponent,
   ],
   imports: [
     HttpClientModule,
@@ -115,7 +118,7 @@ import { ConfirmComponent } from './dialogs/confirm/confirm.component';
     useClass: LoaderInterceptor,
     multi: true
   }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
-    { provide: MAT_DIALOG_DATA, useValue: null }, DialogService
+    { provide: MAT_DIALOG_DATA, useValue: null }, DialogService, Dialog2Service
   ],
   bootstrap: [AppComponent]
 })

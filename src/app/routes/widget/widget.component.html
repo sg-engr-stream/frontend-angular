@@ -19,7 +19,7 @@
       </tr>
       <tr>
         <td>Status</td>
-        <td>{{cardDetails.status}}</td>
+        <td>{{cardDetails.status? 'Enabled': 'Disabled'}}</td>
       </tr>
       <tr>
         <td>Embed</td>
@@ -30,14 +30,8 @@
     </table>
   </mat-card-content>
   <mat-card-actions align="end" fxLayoutGap="15px">
-    <button mat-raised-button color="primary" (click)="redirect()">Redirect
+    <button mat-raised-button color="primary" (click)="redirect()" [disabled]="!cardDetails.status">Redirect
       <mat-icon>open_in_new</mat-icon>
-    </button>
-    <button mat-mini-fab color="primary">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-mini-fab color="primary">
-      <mat-icon>share</mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>

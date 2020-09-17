@@ -4,6 +4,7 @@ import { RequestsService } from '../../services/requests/requests.service';
 import { DialogService } from '../../services/dialog/dialog.service';
 import { GridOptions } from 'ag-grid-community';
 import { BtnCellRendererComponent } from '../../renderer/btn-cell-renderer/btn-cell-renderer.component';
+import { Dialog2Service } from '../../services/dialog2/dialog2.service';
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +41,9 @@ export class ProfileComponent implements OnInit {
           return 'Owner';
         } else if (params.data.access_type === null) {
           return 'RW';
-        } else { return params.data.access_type; }
+        } else {
+          return params.data.access_type;
+        }
       }
     },
     {
@@ -52,11 +55,21 @@ export class ProfileComponent implements OnInit {
       cellRendererParams: {
         clicked: (field: any) => {
           console.log(field);
-          this.openCardInDialog(field.data);
+          this.openCardInDialog(field.data).subscribe(res => {
+            if (res) {
+              this.request.actionOnCards({ card_ids: [field.data.card_id] }, 'delete').subscribe(res1 => {
+                // this.gridOptionsCard.api.applyTransaction({ remove: selectedCards });
+                this.ngOnInit();
+              }, err => {
+                this.common.openDialogMessage('Error', 'Error while performing action: delete');
+              });
+            }
+          }, err => {
+          });
         }
       },
-      width: 330,
-      minWidth: 330
+      width: 380,
+      minWidth: 380
     }
   ];
   rowDataCard: any = [];
@@ -107,7 +120,8 @@ export class ProfileComponent implements OnInit {
   cardsListNotInGroupValue: any;
 
 
-  constructor(private common: CommonService, private request: RequestsService, private dialogService: DialogService) {
+  constructor(private common: CommonService, private request: RequestsService, private dialogService: DialogService,
+              private dialog2: Dialog2Service) {
     this.frameworkComponents = {
       btnCellRenderer: BtnCellRendererComponent
     };
@@ -127,6 +141,7 @@ export class ProfileComponent implements OnInit {
           this.selectedGroupDetails = this.selectGroupOptionList[0];
           this.selectedGroup = this.selectedGroupDetails.group_id;
           this.rowDataGroup = this.allLoadedGroupData[this.selectedGroup].card_list;
+          this.updateCardListNotInGroup(this.rowDataCard, this.rowDataGroup);
         }
       }, () => {
         this.common.openDialogMessage('Error loading profile', 'Error occurred while trying to load your profile. Contact us, if you think there is some problem in product.');
@@ -135,14 +150,14 @@ export class ProfileComponent implements OnInit {
   }
 
   expiryColor(params): any {
-      let color;
-      const check = new Date(params.value) <= new Date(new Date().toUTCString());
-      if (params.value == null || !check) {
-        color = 'green';
-      } else {
-        color = 'red';
-      }
-      return { color };
+    let color;
+    const check = new Date(params.value) <= new Date(new Date().toUTCString());
+    if (params.value == null || !check) {
+      color = 'green';
+    } else {
+      color = 'red';
+    }
+    return { color };
   }
 
   formattedExpiry(params): any {
@@ -152,11 +167,11 @@ export class ProfileComponent implements OnInit {
     return new Date(params.data.expiry).toLocaleString();
   }
 
-  openCardInDialog(cardDetails): void {
+  openCardInDialog(cardDetails): any {
     if (cardDetails.access_type === undefined) {
       cardDetails.access_type = 'RW';
     }
-    this.dialogService.openDialogCardDetails(cardDetails);
+    return this.dialogService.openDialogCardDetails(cardDetails);
   }
 
   gridReadyCard(): void {
@@ -175,41 +190,66 @@ export class ProfileComponent implements OnInit {
   }
 
   activateDeactivateCards(actionName): void {
-    let status;
-    if (actionName === 'activate') {
-      status = true;
-    } else if (actionName === 'deactivate') {
-      status = false;
-    } else {
-      return;
-    }
-    const selectedCards = this.gridOptionsCard.api.getSelectedRows();
-    selectedCards.forEach(card => {
-      card.status = status;
-      this.gridOptionsCard.rowData.forEach(row => {
-        if (row.card_id === card.card_id) {
-          row.status = status;
+    this.common.openConfirmationDialog().subscribe(res => {
+      if (res) {
+        let status;
+        if (actionName === 'activate') {
+          status = true;
+        } else if (actionName === 'deactivate') {
+          status = false;
+        } else {
+          return;
         }
-      });
+
+        const selectedCards = this.gridOptionsCard.api.getSelectedRows();
+        const cardIds = [];
+        selectedCards.forEach(card => {
+          card.status = status;
+          this.gridOptionsCard.rowData.forEach(row => {
+            if (row.card_id === card.card_id) {
+              row.status = status;
+              cardIds.push(row.card_id);
+            }
+          });
+        });
+        this.request.actionOnCards({ card_ids: cardIds }, actionName).subscribe(res1 => {
+          console.log(res);
+          this.gridOptionsCard.api.applyTransaction({ update: selectedCards });
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while performing action: ' + actionName);
+        });
+      }
     });
-    this.gridOptionsCard.api.updateRowData({ update: selectedCards });
+
   }
 
   deleteSelectedCards(): void {
-    const selectedCards = this.gridOptionsCard.api.getSelectedRows();
-    selectedCards.forEach(card => {
-      const findItem = this.gridOptionsCard.rowData.indexOf(card);
-      if (findItem >= 0) {
-        this.gridOptionsGroup.rowData.splice(findItem, 1);
+    this.common.openConfirmationDialog().subscribe(res => {
+      if (res) {
+        const selectedCards = this.gridOptionsCard.api.getSelectedRows();
+        const cardIds = [];
+        selectedCards.forEach(card => {
+          const findItem = this.gridOptionsCard.rowData.indexOf(card);
+          if (findItem >= 0) {
+            this.gridOptionsGroup.rowData.splice(findItem, 1);
+            cardIds.push(card.card_id);
+          }
+        });
+        this.request.actionOnCards({ card_ids: cardIds }, 'delete').subscribe(res1 => {
+          // this.gridOptionsCard.api.applyTransaction({ remove: selectedCards });
+          this.ngOnInit();
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while performing action: delete');
+        });
       }
     });
-    this.gridOptionsCard.api.updateRowData({ remove: selectedCards });
   }
 
   addCardToExistingGroup(value = null): void {
     if (value === 'confirm') {
       const selectedCards = this.gridOptionsCard.api.getSelectedRows();
       const cardsToAdd = [];
+      const cardIdsToAdd = [];
       const cardsInGroup = this.allLoadedGroupData[this.selectedGroupToAddCardInto].card_list;
       selectedCards.forEach(card => {
         let toAdd = true;
@@ -220,13 +260,19 @@ export class ProfileComponent implements OnInit {
         });
         if (toAdd) {
           cardsToAdd.push(card);
+          cardIdsToAdd.push(card.card_id);
         }
       });
-      const fullList = this.allLoadedGroupData[this.selectedGroupToAddCardInto].card_list.concat(cardsToAdd);
-      this.allLoadedGroupData[this.selectedGroupToAddCardInto].card_list = fullList;
-      if (this.selectedGroupToAddCardInto === this.selectedGroup) {
-        this.gridOptionsGroup.api.updateRowData({ add: cardsToAdd });
-      }
+      this.request.addCardsToExistingGroup({ group_id: this.selectedGroupToAddCardInto, card_ids: cardIdsToAdd })
+        .subscribe(res => {
+          const fullList = this.allLoadedGroupData[this.selectedGroupToAddCardInto].card_list.concat(cardsToAdd);
+          this.allLoadedGroupData[this.selectedGroupToAddCardInto].card_list = fullList;
+          if (this.selectedGroupToAddCardInto === this.selectedGroup) {
+            this.gridOptionsGroup.api.applyTransaction({ add: cardsToAdd });
+          }
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while performing action: add to group');
+        });
     }
     this.cardAdditionToExistingGroupEnabled = !this.cardAdditionToExistingGroupEnabled;
   }
@@ -289,26 +335,41 @@ export class ProfileComponent implements OnInit {
       if (res) {
         const itemFound = this.selectGroupOptionList.indexOf(this.selectedGroupDetails);
         if (itemFound >= 0) {
-          this.selectGroupOptionList.splice(itemFound, 1);
-          delete this.allLoadedGroupData[this.selectedGroup];
-          if (this.selectGroupOptionList.length > 0) {
-            this.selectedGroupDetails = this.selectGroupOptionList[0];
-            this.selectedGroup = this.selectedGroupDetails.group_id;
-            this.rowDataGroup = this.allLoadedGroupData[this.selectedGroup].card_list;
-          } else {
-            this.rowDataGroup = [];
-            this.selectedGroupDetails = {};
-          }
+          this.request.actionOnGroups({ group_id: this.selectedGroup }, 'delete').subscribe(res1 => {
+            this.selectGroupOptionList.splice(itemFound, 1);
+            delete this.allLoadedGroupData[this.selectedGroup];
+            if (this.selectGroupOptionList.length > 0) {
+              this.selectedGroupDetails = this.selectGroupOptionList[0];
+              this.selectedGroup = this.selectedGroupDetails.group_id;
+              this.rowDataGroup = this.allLoadedGroupData[this.selectedGroup].card_list;
+            } else {
+              this.rowDataGroup = [];
+              this.selectedGroupDetails = {};
+            }
+          }, err => {
+            this.common.openDialogMessage('Delete Error', 'Error while deleting the group.');
+          });
         }
       }
     });
   }
 
+  editGroupAccess(): void {
+    this.dialog2.openAccessListDialog(this.selectedGroupDetails).subscribe(res => {
+      console.log(res);
+    });
+  }
+
   activateDeactivateGroup(): void {
+    const actionName = this.selectedGroupDetails.status ? 'deactivate' : 'activate';
     this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
-        this.selectedGroupDetails.status = !this.selectedGroupDetails.status;
-        this.allLoadedGroupData[this.selectedGroup].group_details.status = this.selectedGroupDetails.status;
+        this.request.actionOnGroups({ group_id: this.selectedGroup }, actionName).subscribe(res1 => {
+          this.selectedGroupDetails.status = !this.selectedGroupDetails.status;
+          this.allLoadedGroupData[this.selectedGroup].group_details.status = this.selectedGroupDetails.status;
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while performing the action: ' + actionName);
+        });
       }
     });
   }
@@ -317,13 +378,22 @@ export class ProfileComponent implements OnInit {
     this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
         const selectedRows = this.gridOptionsGroup.api.getSelectedRows();
+        const selectedRowIds = [];
         selectedRows.forEach(item => {
           const findItem = this.gridOptionsGroup.rowData.indexOf(item);
           if (findItem >= 0) {
+            selectedRowIds.push(item.card_id);
             this.gridOptionsGroup.rowData.splice(findItem, 1);
           }
         });
-        this.gridOptionsGroup.api.updateRowData({ remove: this.gridOptionsGroup.api.getSelectedRows() });
+        this.request.removeCardsFromGroups({
+          group_id: this.selectedGroup,
+          card_ids: selectedRowIds
+        }).subscribe(res1 => {
+          this.gridOptionsGroup.api.applyTransaction({ remove: this.gridOptionsGroup.api.getSelectedRows() });
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while removing cards from group.');
+        });
       }
     });
   }
@@ -334,10 +404,15 @@ export class ProfileComponent implements OnInit {
     if (value === 'confirm') {
       cardsFromOwner.forEach(card => {
         if (card.card_id === this.cardsListNotInGroupValue) {
-          this.gridOptionsGroup.rowData.push(card);
-          this.gridOptionsGroup.api.updateRowData({ add: [card] });
-          this.updateCardListNotInGroup();
-          return 0;
+          this.request.addCardsToExistingGroup({ group_id: this.selectedGroup, card_ids: [card.card_id] })
+            .subscribe(res => {
+              this.gridOptionsGroup.rowData.push(card);
+              this.gridOptionsGroup.api.applyTransaction({ add: [card] });
+              this.updateCardListNotInGroup();
+              return 0;
+            }, err => {
+              this.common.openDialogMessage('Error', 'Error while performing action: add to group');
+            });
         }
       });
     }
@@ -351,9 +426,9 @@ export class ProfileComponent implements OnInit {
     return true;
   }
 
-  updateCardListNotInGroup(): any {
-    const cardsFromOwner = this.gridOptionsCard.rowData;
-    const cardsInGroup = this.gridOptionsGroup.rowData;
+  updateCardListNotInGroup(cardData = null, groupData = null): any {
+    const cardsFromOwner = cardData === null ? this.gridOptionsCard.rowData : cardData;
+    const cardsInGroup = groupData === null ? this.gridOptionsGroup.rowData : groupData;
     const cardIds = [];
     cardsInGroup.forEach(item => {
       cardIds.push(item.card_id);
@@ -364,12 +439,16 @@ export class ProfileComponent implements OnInit {
       if (findIndex < 0) {
         this.cardsListNotInGroup.push(card);
         // this.gridOptionsGroup.rowData.push(card);
-        // this.gridOptionsGroup.api.updateRowData({add: [card]});
+        // this.gridOptionsGroup.api.applyTransaction({add: [card]});
       }
     });
   }
 
   returnObjectKeys(obj): any {
     return Object.keys(obj);
+  }
+
+  openWidget(): void {
+    window.open(window.location.origin + '/wg/' + this.selectedGroupDetails.group_id);
   }
 }

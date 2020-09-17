@@ -91,16 +91,24 @@
         </div>
       </div>
       <div class="btn-container" fxLayoutGap="15px" fxLayout="row wrap">
+        <button mat-raised-button color="primary" class="btn-with-extra-margin" (click)="editGroupAccess()" [disabled]="selectedGroupDetails.access_type !== 'RW'">Edit Group
+          <mat-icon [inline]="true">edit</mat-icon>
+        </button>
         <button mat-raised-button color="primary" class="btn-with-extra-margin" (click)="deleteGroup()">Delete Group
+          <mat-icon [inline]="true">delete_forever</mat-icon>
         </button>
         <button mat-raised-button color="primary" class="btn-with-extra-margin"
                 (click)="activateDeactivateGroup()">{{selectedGroupDetails.status ? 'Dea' : 'A'}}ctivate Group
         </button>
         <button mat-raised-button color="primary" class="btn-with-extra-margin" [disabled]="groupRemoveCardDisabled()"
-                (click)="deleteCardFromGroup()">Delete Selected Cards
+                (click)="deleteCardFromGroup()">Remove Selected Cards
         </button>
         <button mat-raised-button color="primary" class="btn-with-extra-margin" *ngIf="cardAdditionByGroupEnabled"
-                (click)="addCardToGroup()">Add Card
+                (click)="addCardToGroup()" [disabled]="cardsListNotInGroup.length === 0">Add Card
+        </button>
+        <button mat-raised-button color="primary" class="btn-with-extra-margin"
+                (click)="openWidget()" [disabled]="!selectedGroupDetails.status">Widget
+          <mat-icon [inline]="true">open_in_new</mat-icon>
         </button>
       </div>
       <div *ngIf="!cardAdditionByGroupEnabled" fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="15px">

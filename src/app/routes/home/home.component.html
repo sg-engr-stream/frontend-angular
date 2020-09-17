@@ -1,14 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <div fxFlex="100%">
-    <mat-card class="welcome" fxLayoutAlign="center center">
+    <mat-card class="welcome" fxLayoutAlign="center center" fxHide.gt-xs>
       <mat-card-header>
-        <mat-card-title class="zero-margin-bottom">Welcome to Short<span class="red">Url</span></mat-card-title>
+        <mat-card-title class="zero-margin-bottom">Welcome to N4<span class="red">NITIN</span></mat-card-title>
       </mat-card-header>
     </mat-card>
     <mat-card *ngIf="!common.isLoggedIn || (common.isLoggedIn && common.emailVerified)" class="shortUrl-card">
       <mat-card-header>
         <mat-card-title>Create your own Short<span class="red">Url</span> below</mat-card-title>
       </mat-card-header>
+      <div fxLayoutAlign.lt-sm="center center" fxLayout="column">
       <mat-card-content>
         <form class="shortUrl-form" [formGroup]="shortUrlForm" fxLayoutGap="20px" fxLayout="column"
               fxLayoutAlign="center center">
@@ -66,6 +67,7 @@
             Create
           </button>
         </mat-card-content>
+      </div>
       </div>
     </mat-card>
     <mat-card class="registered-unverified" *ngIf="common.isLoggedIn && !common.emailVerified">

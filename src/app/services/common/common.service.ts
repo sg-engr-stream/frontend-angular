@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { EditComponent } from '../../routes/edit/edit.component';
 import { ConfirmComponent } from '../../dialogs/confirm/confirm.component';
+import { AccessListDialogComponent } from '../../dialogs/access-list-dialog/access-list-dialog.component';
 
 @Injectable({
   providedIn: 'root'

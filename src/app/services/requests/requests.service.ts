@@ -145,4 +145,42 @@ export class RequestsService {
   addCardAccess(data): any {
     return this.post_request('/card_access/add/', data);
   }
+
+  updateCardAccess(data): any {
+    return this.post_request('/card_access/action/', data);
+  }
+
+  actionOnCards(data, actionName): any {
+    if (this.common.isLoggedIn && this.common.emailVerified) {
+      data.username = this.common.username;
+    }
+    return this.post_request('/card/action/' + actionName, data);
+  }
+
+  addCardsToExistingGroup(data): any {
+    return this.post_request('/card/add_to_group/', data);
+  }
+
+  actionOnGroups(data, actionName): any {
+    if (this.common.isLoggedIn && this.common.emailVerified) {
+      data.username = this.common.username;
+    }
+    return this.post_request('/group/action/' + actionName, data);
+  }
+
+  removeCardsFromGroups(data): any {
+    return this.post_request('/group/remove_cards_from_group/', data);
+  }
+
+  updateGroupDetails(groupId, data): any {
+    return this.post_request('/group/update/' + groupId, data);
+  }
+
+  addGroupAccess(data): any {
+    return this.post_request('/group_access/add/', data);
+  }
+
+  updateGroupAccess(data): any {
+    return this.post_request('/group_access/action/', data);
+  }
 }

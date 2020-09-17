@@ -10,9 +10,9 @@
           <mat-icon>check</mat-icon>
         </button>
         <button mat-mini-fab [color]="editable.title ? 'warn': 'primary'" matSuffix tabindex="-1"
-                (click)="updateFieldByKey('title', false)">
+                (click)="updateFieldByKey('title', false)" [disabled]="cardDetails.access_type !== 'RW'">
           <mat-icon *ngIf="editable.title">close</mat-icon>
-          <mat-icon *ngIf="!editable.title">edit</mat-icon>
+          <mat-icon *ngIf="!editable.title && cardDetails.access_type === 'RW'">edit</mat-icon>
         </button>
       </mat-card-title>
     </mat-card-header>
@@ -33,9 +33,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.owner ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('owner', false)">
+                  (click)="updateFieldByKey('owner', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.owner">close</mat-icon>
-            <mat-icon *ngIf="!editable.owner">edit</mat-icon>
+            <mat-icon *ngIf="!editable.owner && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
@@ -49,9 +49,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.description ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('description', false)">
+                  (click)="updateFieldByKey('description', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.description">close</mat-icon>
-            <mat-icon *ngIf="!editable.description">edit</mat-icon>
+            <mat-icon *ngIf="!editable.description && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
@@ -65,9 +65,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.redirectUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('redirectUrl', false)">
+                  (click)="updateFieldByKey('redirectUrl', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.redirectUrl">close</mat-icon>
-            <mat-icon *ngIf="!editable.redirectUrl">edit</mat-icon>
+            <mat-icon *ngIf="!editable.redirectUrl && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
@@ -87,9 +87,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.shortUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('shortUrl', false)">
+                  (click)="updateFieldByKey('shortUrl', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.shortUrl">close</mat-icon>
-            <mat-icon *ngIf="!editable.shortUrl">edit</mat-icon>
+            <mat-icon *ngIf="!editable.shortUrl && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
@@ -103,9 +103,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.iconUrl ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('iconUrl', false)">
+                  (click)="updateFieldByKey('iconUrl', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.iconUrl">close</mat-icon>
-            <mat-icon *ngIf="!editable.iconUrl">edit</mat-icon>
+            <mat-icon *ngIf="!editable.iconUrl && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
@@ -119,9 +119,9 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.expiry ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('expiry', false)">
+                  (click)="updateFieldByKey('expiry', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.expiry">close</mat-icon>
-            <mat-icon *ngIf="!editable.expiry">edit</mat-icon>
+            <mat-icon *ngIf="!editable.expiry && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field appearance="outline" class="input-col-max d-flex">
@@ -135,17 +135,18 @@
             <mat-icon>check</mat-icon>
           </button>
           <button mat-mini-fab [color]="editable.status ? 'warn': 'primary'" matSuffix tabindex="-1"
-                  (click)="updateFieldByKey('status', false)">
+                  (click)="updateFieldByKey('status', false)" [disabled]="cardDetails.access_type !== 'RW'">
             <mat-icon *ngIf="editable.status">close</mat-icon>
-            <mat-icon *ngIf="!editable.status">edit</mat-icon>
+            <mat-icon *ngIf="!editable.status && cardDetails.access_type === 'RW'">edit</mat-icon>
           </button>
         </mat-form-field>
       </div>
-      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px"
+           *ngIf="cardDetails.access_type === 'RW'">
         <mat-form-field appearance="outline" class="input-col">
           <mat-label>Add Access</mat-label>
           <input matInput placeholder="Add Access" [(ngModel)]="usernameForAccess" [disabled]="!editable.accessList"
-          (keyup.enter)="addUserForCardAccess()">
+                 (keyup.enter)="addUserForCardAccess()">
           <button mat-mini-fab color="primary" matSuffix tabindex="-1"
                   (click)="addUserForCardAccess()"
                   *ngIf="editable.accessList" [disabled]="usernameForAccess.length === 0">
@@ -159,23 +160,41 @@
         </mat-form-field>
       </div>
       <div>
-        <li fxLayout="row wrap" fxLayoutAlign="space-between center" *ngFor="let access of cardDetails.user_access_list">
-          <span>{{access.username}}</span>
+        <li fxLayout="row wrap" fxLayoutAlign="space-between center"
+            *ngFor="let access of cardDetails.user_access_list">
+          <span><mat-slide-toggle *ngIf="cardDetails.access_type === 'RW'" [(ngModel)]="access.access_status"
+                                  (change)="changeUserAccessStatus(access)"
+                                  class="access-slide" color="primary"></mat-slide-toggle>
+            {{access.username}}</span>
           <span>
-            RO<mat-slide-toggle (change)="changeUserAccessType(access)" class="access-slide" color="primary"></mat-slide-toggle>RW
-            <button mat-mini-fab color='warn' matSuffix tabindex="-1" (click)="deleteUserAccess(access)">
-              <mat-icon>close</mat-icon>
+            <button mat-flat-button color="primary" [disabled]="cardDetails.access_type !== 'RW'">RO<mat-slide-toggle
+              (change)="changeUserAccessType(getEvent($event), access)" [checked]="access.access_type === 'RW'"
+              class="access-slide" [disabled]="cardDetails.access_type !== 'RW'"
+              color="accent"></mat-slide-toggle>RW</button>
+            <button mat-mini-fab color='warn' matSuffix tabindex="-1" (click)="deleteUserAccess(access)"
+                    *ngIf="cardDetails.access_type === 'RW'">
+              <mat-icon>delete_forever</mat-icon>
             </button>
           </span>
         </li>
       </div>
     </mat-card-content>
 
-    <mat-dialog-actions align="center" *ngIf="data !== null">
-      <button mat-flat-button color="primary" mat-dialog-close>Close
-        <mat-icon inline="true">close</mat-icon>
-      </button>
-    </mat-dialog-actions>
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <mat-dialog-actions *ngIf="data !== null">
+        <button mat-flat-button color="primary" [mat-dialog-close]="false">Close
+          <mat-icon inline="true">close</mat-icon>
+        </button>
+        <button mat-flat-button color="warn" [mat-dialog-close]="true">Delete
+          <mat-icon inline="true">delete_forever</mat-icon>
+        </button>
+      </mat-dialog-actions>
+      <mat-dialog-actions *ngIf="data === null">
+        <button mat-flat-button color="warn" (click)="deleteCard()">Delete
+          <mat-icon inline="true">delete_forever</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </div>
   </mat-card>
   <mat-card *ngIf="dataValid === false">
     <mat-card-header fxLayoutAlign="center center">

@@ -1,0 +1,109 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row wrap" fxLayoutGap="25px">
+    <mat-form-field appearance="outline" class="input-col-max d-flex">
+      <mat-label>Owner</mat-label>
+      <input matInput placeholder="Owner" [(ngModel)]="groupDetails.owner" [disabled]="!editable.owner"
+             (keyup.enter)="updateFieldByKey('owner')">
+      <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('owner')"
+              *ngIf="editable.owner">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-mini-fab [color]="editable.owner ? 'warn': 'primary'" matSuffix tabindex="-1"
+              (click)="updateFieldByKey('owner', false)" [disabled]="groupDetails.access_type !== 'RW'">
+        <mat-icon *ngIf="editable.owner">close</mat-icon>
+        <mat-icon *ngIf="!editable.owner && groupDetails.access_type === 'RW'">edit</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-col-max d-flex">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" [(ngModel)]="groupDetails.title" [disabled]="!editable.title"
+             (keyup.enter)="updateFieldByKey('title')">
+      <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('title')"
+              *ngIf="editable.title">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-mini-fab [color]="editable.title ? 'warn': 'primary'" matSuffix tabindex="-1"
+              (click)="updateFieldByKey('title', false)" [disabled]="groupDetails.access_type !== 'RW'">
+        <mat-icon *ngIf="editable.title">close</mat-icon>
+        <mat-icon *ngIf="!editable.title && groupDetails.access_type === 'RW'">edit</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" class="input-col">
+      <mat-label>Description</mat-label>
+      <input matInput placeholder="Description" [(ngModel)]="groupDetails.description" [disabled]="!editable.description"
+             (keyup.enter)="updateFieldByKey('description')">
+      <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('description')"
+              *ngIf="editable.description">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-mini-fab [color]="editable.description ? 'warn': 'primary'" matSuffix tabindex="-1"
+              (click)="updateFieldByKey('description', false)" [disabled]="groupDetails.access_type !== 'RW'">
+        <mat-icon *ngIf="editable.description">close</mat-icon>
+        <mat-icon *ngIf="!editable.description && groupDetails.access_type === 'RW'">edit</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" class="input-col">
+      <mat-label>Icon Url</mat-label>
+      <input matInput placeholder="Icon Url" [(ngModel)]="groupDetails.icon_url" [disabled]="!editable.icon_url"
+             (keyup.enter)="updateFieldByKey('icon_url')">
+      <button mat-mini-fab color="primary" matSuffix tabindex="-1" (click)="updateFieldByKey('icon_url')"
+              *ngIf="editable.icon_url">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-mini-fab [color]="editable.icon_url ? 'warn': 'primary'" matSuffix tabindex="-1"
+              (click)="updateFieldByKey('icon_url', false)" [disabled]="groupDetails.access_type !== 'RW'">
+        <mat-icon *ngIf="editable.icon_url">close</mat-icon>
+        <mat-icon *ngIf="!editable.icon_url && groupDetails.access_type === 'RW'">edit</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="15px"
+     *ngIf="groupDetails.access_type === 'RW'">
+  <mat-form-field appearance="outline" class="input-col">
+    <mat-label>Add Access</mat-label>
+    <input matInput placeholder="Add Access" [(ngModel)]="usernameForAccess" [disabled]="!accessInput"
+           (keyup.enter)="addUserForGroupAccess()">
+    <button mat-mini-fab color="primary" matSuffix tabindex="-1"
+            (click)="addUserForGroupAccess()"
+            *ngIf="accessInput" [disabled]="usernameForAccess.length === 0">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-mini-fab [color]="accessInput ? 'warn': 'primary'" matSuffix tabindex="-1"
+            (click)="accessInput = !accessInput">
+      <mat-icon *ngIf="accessInput">close</mat-icon>
+      <mat-icon *ngIf="!accessInput">edit</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+  <li fxLayout="row wrap" fxLayoutAlign="space-between center"
+      *ngFor="let access of groupDetails.user_access_list">
+          <span><mat-slide-toggle *ngIf="groupDetails.access_type === 'RW'" [(ngModel)]="access.access_status"
+                                  (change)="changeUserAccessStatus(access)"
+                                  class="access-slide" color="primary"></mat-slide-toggle>
+            {{access.username}}</span>
+    <span>
+            <button mat-flat-button color="primary"
+                    [disabled]="groupDetails.access_type !== 'RW' || access.username === 'public'">RO<mat-slide-toggle
+              (change)="changeUserAccessType(getEvent($event), access)" [checked]="access.access_type === 'RW'"
+              class="access-slide" [disabled]="groupDetails.access_type !== 'RW' || access.username === 'public'"
+              color="accent"></mat-slide-toggle>RW</button>
+            <button mat-mini-fab color='warn' matSuffix tabindex="-1"
+                    (click)="deleteOrUpdateUserAccessStatusOrType(access)"
+                    *ngIf="groupDetails.access_type === 'RW'">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </span>
+  </li>
+</div>
+<mat-dialog-actions fxLayoutAlign="center center" fxLayout="row">
+  <button mat-flat-button color="primary" [mat-dialog-close]="groupDetails">Close
+    <mat-icon inline="true">close</mat-icon>
+  </button>
+</mat-dialog-actions>

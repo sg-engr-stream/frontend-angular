@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../services/common/common.service';
 import { RequestsService } from '../../services/requests/requests.service';
@@ -12,6 +12,8 @@ import { LoaderService } from '../../services/loader/loader.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements AfterViewInit {
+
+  @ViewChild('toggleElement') ref: ElementRef;
 
   cardDetails = {} as Card;
   origin = window.location.origin;
@@ -65,6 +67,9 @@ export class EditComponent implements AfterViewInit {
   setCardDetails(cardDetails): void {
     this.cardDetails = cardDetails as Card;
     this.dataValid = true;
+    if (this.cardDetails.owner === 'public') {
+      this.cardDetails.access_type = 'RW';
+    }
     this.initOldValues();
     if (this.cardDetails.expiry !== null) {
       this.cardDetails.expiry = new Date(this.cardDetails.expiry).toISOString().slice(0, 16);
@@ -158,9 +163,16 @@ export class EditComponent implements AfterViewInit {
     this.request.addCardAccess(data).subscribe(res => {
       console.log(res);
       if (res.result[0][this.usernameForAccess] !== false) {
-        this.cardDetails.user_access_list.push({ username: this.usernameForAccess, card_id: this.cardDetails.card_id, access_type: 'RO' });
+        this.cardDetails.user_access_list.push({
+          username: this.usernameForAccess,
+          card_id: this.cardDetails.card_id,
+          access_type: 'RO'
+        });
         this.oldValues.user_access_list = this.cardDetails.user_access_list;
         this.editable.accessList = !this.editable.accessList;
+        this.usernameForAccess = '';
+      } else if (res.result[0][this.usernameForAccess] === 'Already Exist') {
+        this.common.openDialogMessage('Already Exist', 'User ' + this.usernameForAccess + ' already has access.');
       } else {
         this.common.openDialogMessage('Error', 'User ' + this.usernameForAccess + ' is not available or not verified.');
       }
@@ -169,8 +181,33 @@ export class EditComponent implements AfterViewInit {
     });
   }
 
-  changeUserAccessType($event): void {
+  changeUserAccessType($event, $data): void {
+    console.log($data.access_type);
+    const actionName = $event.checked ? 'access_RW' : 'access_RO';
+    const data = { card_id: this.cardDetails.card_id, action_name: actionName, username: $data.username };
+    this.request.updateCardAccess(data).subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  getEvent($event): void {
     console.log($event);
+    return $event;
+    // const data = {card_id : this.cardDetails.card_id}
+  }
+
+  changeUserAccessStatus($data): void {
+    // console.log($data, 'change');
+    console.log($data.access_status, 'change');
+    const actionName = $data.access_status ? 'enable' : 'disable';
+    const data = { card_id: this.cardDetails.card_id, action_name: actionName, username: $data.username };
+    this.request.updateCardAccess(data).subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.error(err);
+    });
   }
 
   deleteUserAccess($data): void {
@@ -178,11 +215,19 @@ export class EditComponent implements AfterViewInit {
       if (res) {
         const findItem = this.cardDetails.user_access_list.indexOf($data);
         if (findItem >= 0) {
-          this.cardDetails.user_access_list.splice(findItem, 1);
-          this.oldValues.user_access_list = this.cardDetails.user_access_list;
+          const data = { card_id: this.cardDetails.card_id, action_name: 'delete', username: $data.username };
+          this.request.updateCardAccess(data).subscribe(res1 => {
+            this.cardDetails.user_access_list.splice(findItem, 1);
+            this.oldValues.user_access_list = this.cardDetails.user_access_list;
+          }, err => {
+            this.common.openDialogMessage('Error', 'Error while deleting card access');
+          });
         }
       }
     });
   }
 
+  deleteCard(): void {
+    // const data = {card_id : this.cardDetails.card_id, action_name: actionName};
+  }
 }

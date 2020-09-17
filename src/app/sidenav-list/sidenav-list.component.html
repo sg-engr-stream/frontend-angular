@@ -1,21 +1,34 @@
 <mat-nav-list>
-    <a mat-list-item routerLink="/" (click)="onSidenavClose()">
-        <mat-icon>home</mat-icon>
-        <span class="nav-caption">Home</span>
-    </a>
-    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/profile" (click)="onSidenavClose()">
-        <span class="nav-caption">Profile</span>
-    </a>
-    <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/login" (click)="onSidenavClose()">
-        <span class="nav-caption">Login</span>
-    </a>
-    <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
-        <span class="nav-caption">SignUp</span>
-    </a>
-    <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose(true)">
-        <span class="nav-caption">Logout</span>
-    </a>
-    <a mat-list-item routerLink="/app/contact" (click)="onSidenavClose()">
-        <span class="nav-caption">Contact</span>
-    </a>
+
+  <a mat-list-item routerLink="/" (click)="onSidenavClose()">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <mat-icon>home</mat-icon>
+      <span class="nav-caption">Home</span>
+    </button>
+  </a>
+  <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/profile" (click)="onSidenavClose()">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <span class="nav-caption">Profile</span>
+    </button>
+  </a>
+  <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/login" (click)="onSidenavClose()">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <span class="nav-caption">Login</span>
+    </button>
+  </a>
+  <a *ngIf="!common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose()">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <span class="nav-caption">SignUp</span>
+    </button>
+  </a>
+  <a *ngIf="common.isLoggedIn" mat-list-item routerLink="/app/signup" (click)="onSidenavClose(true)">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <span class="nav-caption">Logout</span>
+    </button>
+  </a>
+  <a mat-list-item routerLink="/app/contact" (click)="onSidenavClose()">
+    <button mat-flat-button color="primary" fxFlex fxLayoutAlign="start center">
+      <span class="nav-caption">Contact</span>
+    </button>
+  </a>
 </mat-nav-list>
