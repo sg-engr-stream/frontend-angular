@@ -12,6 +12,7 @@ import { LoginSignupGuardService } from './services/login-signup-guard/login-sig
 import { PasswordResetByTokenComponent } from './routes/password-reset-by-token/password-reset-by-token.component';
 import { EditComponent } from './routes/edit/edit.component';
 import { ContactComponent } from './routes/contact/contact.component';
+import { GroupWidgetComponent } from './routes/group-widget/group-widget.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'app/signup', component: LoginSignupComponent, data: { type: 'signup'}, canActivate: [LoginSignupGuardService]},
   {path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService]},
   {path: 'w/:widget', component: WidgetComponent},
+  {path: 'wg/:groupWidget', component: GroupWidgetComponent},
   {path: 'app/password_reset/:token/:username', component: PasswordResetByTokenComponent, canActivate: [LoginSignupGuardService]},
   {path: 'app/default', component: NgDefaultComponent},
   {path: 'edit/:cardId', component: EditComponent},

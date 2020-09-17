@@ -6,7 +6,7 @@
           <mat-icon>menu</mat-icon>
         </button>
         <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">
-          Hello, {{common.name}}</button>
+          Hello, {{common.name.toUpperCase()}}</button>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="space-between center" fxHide.xs>
         <div>
@@ -20,7 +20,7 @@
           <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/login">Login</a>
           <a *ngIf="!common.isLoggedIn" mat-button routerLink="/app/signup">SignUp</a>
           <button *ngIf="common.isLoggedIn" mat-button color="default" routerLink="/app/profile">
-            Hello, {{common.name}}</button>
+            Hello, {{common.name.toUpperCase()}}</button>
           <button mat-icon-button [matMenuTriggerFor]="beforeMenu" aria-label="Profile menu">
             <mat-icon>more_vert</mat-icon>
           </button>

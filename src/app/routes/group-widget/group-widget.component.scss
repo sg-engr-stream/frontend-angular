@@ -1,0 +1,59 @@
+img {
+  height: 36px;
+}
+
+.left-right-padding {
+  padding: 0 20px;
+  margin-left: 20px;
+}
+
+.border-left {
+  border-left: 2px solid gray;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.italics-b {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.card-container {
+  mat-card {
+    min-width: 250px;
+    width: 380px;
+  }
+}
+
+.width-full {
+  width: 100%;
+}
+
+.widget-container {
+  border: 2px solid;
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+
+#widget {
+  overflow-wrap: break-word;
+  width: calc(100% - 50px);
+  display: block;
+  margin: 0 auto;
+}
+
+#copy-btn {
+  width: 40px;
+  margin-left: 10px;
+  display: block;
+}

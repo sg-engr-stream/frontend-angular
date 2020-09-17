@@ -3,6 +3,31 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
+          Profile Details
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="column" fxLayoutAlign="space-evenly center" class="profile-details-container">
+        <table>
+          <tr>
+            <td>Display Name</td>
+            <td>{{common.name}}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{common.email}}</td>
+          </tr>
+          <tr>
+            <td>Verification</td>
+            <td>{{common.emailVerified ? 'Verified' : 'Unverified'}}</td>
+          </tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           Cards<span class="description">- Listing cards which you own or have access ({{rowDataCard.length}})</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -73,7 +98,7 @@
       <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="group-selector">
         <div>
           <img mat-card-avatar
-               [src]="selectedGroupDetails.icon_url === null ? './favicon.ico': selectedGroupDetails.icon_url">
+               [src]="selectedGroupDetails.icon_url === null ? './favicon.ico': selectedGroupDetails.icon_url" alt="">
           <mat-form-field appearance="fill">
             <mat-label>Select an option</mat-label>
             <mat-select [(value)]="selectedGroup" (selectionChange)="selectGroupChange($event)">
@@ -91,7 +116,8 @@
         </div>
       </div>
       <div class="btn-container" fxLayoutGap="15px" fxLayout="row wrap">
-        <button mat-raised-button color="primary" class="btn-with-extra-margin" (click)="editGroupAccess()" [disabled]="selectedGroupDetails.access_type !== 'RW'">Edit Group
+        <button mat-raised-button color="primary" class="btn-with-extra-margin" (click)="editGroupAccess()"
+                [disabled]="selectedGroupDetails.access_type !== 'RW'">Edit Group
           <mat-icon [inline]="true">edit</mat-icon>
         </button>
         <button mat-raised-button color="primary" class="btn-with-extra-margin" (click)="deleteGroup()">Delete Group

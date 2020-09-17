@@ -58,6 +58,9 @@ import 'ag-grid-enterprise';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { AccessListDialogComponent } from './dialogs/access-list-dialog/access-list-dialog.component';
 import { Dialog2Service } from './services/dialog2/dialog2.service';
+import { GroupWidgetComponent } from './routes/group-widget/group-widget.component';
+import { ClipboardService } from 'ngx-clipboard';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -81,6 +84,7 @@ import { Dialog2Service } from './services/dialog2/dialog2.service';
     InputDialogComponent,
     ConfirmComponent,
     AccessListDialogComponent,
+    GroupWidgetComponent,
   ],
   imports: [
     HttpClientModule,
@@ -112,13 +116,14 @@ import { Dialog2Service } from './services/dialog2/dialog2.service';
     MatSlideToggleModule,
     MatSelectModule,
     MatTreeModule,
+    MatTooltipModule,
   ],
   providers: [AuthGuardService, LoginSignupGuardService, CommonService, RequestsService, CookieService, LoaderService, {
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true
   }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
-    { provide: MAT_DIALOG_DATA, useValue: null }, DialogService, Dialog2Service
+    { provide: MAT_DIALOG_DATA, useValue: null }, DialogService, Dialog2Service, ClipboardService
   ],
   bootstrap: [AppComponent]
 })

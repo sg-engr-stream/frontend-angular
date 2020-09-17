@@ -1,4 +1,4 @@
-<mat-card fxLayout="column" fxLayoutGap="15px" *ngIf="dataValid === true">
+<mat-card fxLayout="column" fxLayoutGap="15px" *ngIf="dataValid === true" id="widget-container-card">
   <mat-card-header fxLayoutAlign="start center">
     <div mat-card-avatar><img src="{{cardDetails.icon_url}}" alt="S"></div>
     <mat-card-title>{{cardDetails.title}}</mat-card-title>
@@ -19,12 +19,19 @@
       </tr>
       <tr>
         <td>Status</td>
-        <td>{{cardDetails.status? 'Enabled': 'Disabled'}}</td>
+        <td>{{cardDetails.status ? 'Enabled' : 'Disabled'}}</td>
       </tr>
       <tr>
         <td>Embed</td>
         <td>
-          <mat-form-field><input matInput disabled="disabled" [value]="embedCode"></mat-form-field>
+          <mat-form-field>
+            <div class="d-flex">
+              <input id="widget" matInput disabled="disabled" [value]="embedCode">
+              <button mat-mini-fab (click)="copyContent()" color="primary">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </mat-form-field>
         </td>
       </tr>
     </table>

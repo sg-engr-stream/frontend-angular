@@ -1,0 +1,49 @@
+<div id="group-widget-container" fxLayout="column" fxLayoutGap="15px" *ngIf="dataValid === true">
+  <mat-card>
+    <mat-card-title>
+      <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+        <img [src]="groupDetails.icon_url" alt="">
+        <span class="left-right-padding border-left">{{groupDetails.title}}</span>
+      </mat-card-header>
+    </mat-card-title>
+    <mat-card-content>
+      <p class="left-right-padding text-center"><span
+        class="italics-b left-right-padding">Description : </span><i>{{groupDetails.description}}</i></p>
+    </mat-card-content>
+    <mat-card-content>
+      <div class="width-full widget-container"><span id="widget">{{embedCode}}</span>
+        <button mat-mini-fab color="primary" id="copy-btn" matTooltip="Copy Widget" (click)="copyContent()">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div fxLayout="row wrap" class="card-container" fxLayoutGap="15px" fxLayoutAlign="space-evenly center">
+    <mat-card *ngFor="let card of cardDetails">
+      <mat-card-title>
+        <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+          <img [src]="card.icon_url === null ? './favicon.ico': card.icon_url" alt="">
+          <span class="left-right-padding border-left">{{card.title}}</span>
+        </mat-card-header>
+      </mat-card-title>
+      <mat-card-content>
+        <p class="left-right-padding"><span
+          class="italics-b">Description : </span><i>{{card.description}}</i></p>
+        <p class="text-right">
+          <button mat-flat-button color="primary" (click)="openShortUrl(card.short_url)" [disabled]="findDisabled(card)">
+            ShortUrl
+            <mat-icon [inline]="true">open_in_new</mat-icon>
+          </button>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<mat-card *ngIf="dataValid === false">
+  <mat-card-header fxLayoutAlign="center center">
+    <mat-card-title>Invalid</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    Item does not exist or you might not have permission.
+  </mat-card-content>
+</mat-card>

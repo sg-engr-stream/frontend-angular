@@ -76,11 +76,11 @@ export class CommonService {
 
   setUserDetails(res, redirect = true): void {
     const user = res as User;
-    this.cookie.set('name', user.name.toUpperCase(), 10, '/');
+    this.cookie.set('name', user.name, 10, '/');
     this.cookie.set('loggedIn', '1', 10, '/');
     this.cookie.set('verified', user.verified ? '1' : '0', 10, '/');
     this.cookie.set('username', user.username, 10, '/');
-    this.name = user.name.toUpperCase();
+    this.name = user.name;
     this.username = user.username;
     this.email = user.email;
     this.emailVerified = user.verified;

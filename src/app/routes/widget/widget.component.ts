@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../services/common/common.service';
 import { Card } from '../../models/card_model';
 import { RequestsService } from '../../services/requests/requests.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-widget',
@@ -17,7 +18,8 @@ export class WidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dataValid: boolean;
 
-  constructor(private routes: ActivatedRoute, private common: CommonService, private request: RequestsService) {
+  constructor(private routes: ActivatedRoute, private common: CommonService, private request: RequestsService,
+              private clip: ClipboardService) {
     this.common.onlyWidget = true;
     this.cardId = routes.snapshot.params.widget;
     this.loadCard(this.cardId);
@@ -57,4 +59,23 @@ export class WidgetComponent implements OnInit, OnDestroy, AfterViewInit {
     window.open(this.cardDetails.short_url);
   }
 
+  copyContent(): void {
+    this.clip.copy(this.embedCode);
+    const el = document.getElementById('widget');
+    const oldStyleColor = el.style.color;
+    const oldStyleBg = el.style.backgroundColor;
+    el.style.color = 'white';
+    el.style.backgroundColor = 'gray';
+    window.setTimeout(() => {
+      el.style.color = oldStyleColor;
+      el.style.backgroundColor = oldStyleBg;
+    }, 500);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    const el = document.getElementById('widget-container-card');
+    this.embedCode = '<iframe src="' + window.location.href + '" style="border: none;" width="' + el.offsetWidth + '" height="' + el.offsetHeight + '"></iframe>';
+    // console.log(el.offsetHeight, el.offsetWidth);
+  }
 }

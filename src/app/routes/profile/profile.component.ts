@@ -120,7 +120,7 @@ export class ProfileComponent implements OnInit {
   cardsListNotInGroupValue: any;
 
 
-  constructor(private common: CommonService, private request: RequestsService, private dialogService: DialogService,
+  constructor(public common: CommonService, private request: RequestsService, private dialogService: DialogService,
               private dialog2: Dialog2Service) {
     this.frameworkComponents = {
       btnCellRenderer: BtnCellRendererComponent
@@ -438,8 +438,6 @@ export class ProfileComponent implements OnInit {
       const findIndex = cardIds.indexOf(card.card_id);
       if (findIndex < 0) {
         this.cardsListNotInGroup.push(card);
-        // this.gridOptionsGroup.rowData.push(card);
-        // this.gridOptionsGroup.api.applyTransaction({add: [card]});
       }
     });
   }
