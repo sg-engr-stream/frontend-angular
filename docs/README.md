@@ -1,14 +1,12 @@
 # SG Engineering Stream Hackathon - Frontend Angular
 
 ## N4NITIN
-Site avaialble at : [N4NITIN](http://www.n4nit.in/) and [Heroku](https://short-url-front-prod.herokuapp.com/)
+Site avaialble at : [N4NITIN](http://www.n4nit.in/) and [HEROKU](https://short-url-front-prod.herokuapp.com/)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
 
 ## Getting delvelopment server ready
-Install `node`
-
-Run below commands:
+Run from root directory
 - `git clone https://github.com/sg-engr-stream/frontend-angular.git`
 - `cd frontend-angular`
 - `npm install`
@@ -43,11 +41,6 @@ Create or own app using heroku cli (app name needs to be unique, below will not 
 - `git push prod master`
 
 Browse at provided address https://app-stage.herokuapp.com/  
-
-## CI/CD and Reports
-- [Travis-CI](https://travis-ci.com/github/sg-engr-stream/frontend-angular)
-- [Codecov.io](https://codecov.io/gh/sg-engr-stream/frontend-angular)
-- [Codacy.com](https://app.codacy.com/gh/sg-engr-stream/frontend-angular/dashboard)
 
 ## Further help
 
