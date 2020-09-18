@@ -71,12 +71,13 @@ export class AccessListDialogComponent implements OnInit {
 
   deleteOrUpdateUserAccessStatusOrType($data, actionName = null): any {
     console.log($data);
+    actionName = actionName === null ? 'delete' : actionName;
     this.common.openConfirmationDialog().subscribe(res => {
       if (res) {
         this.request.updateGroupAccess({
           username: $data.username,
           group_id: this.groupDetails.group_id,
-          action_name: actionName === null ? 'delete' : actionName
+          action_name: actionName
         }).subscribe(
           res1 => {
             if (actionName === 'delete') {
