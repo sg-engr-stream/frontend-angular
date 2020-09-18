@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from '../../services/common/common.service';
 import { RequestsService } from '../../services/requests/requests.service';
 import { Card } from '../../models/card_model';
@@ -45,7 +45,7 @@ export class EditComponent implements AfterViewInit {
 
   usernameForAccess = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private routes: ActivatedRoute,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private routes: ActivatedRoute, private router: Router,
               private common: CommonService, private request: RequestsService, private loaderService: LoaderService) {
   }
 
@@ -228,6 +228,14 @@ export class EditComponent implements AfterViewInit {
   }
 
   deleteCard(): void {
-    // const data = {card_id : this.cardDetails.card_id, action_name: actionName};
+    this.common.openConfirmationDialog().subscribe(res => {
+      if (res) {
+        this.request.actionOnCards({ card_ids: [this.cardDetails.card_id] }, 'delete').subscribe(res1 => {
+          this.router.navigate(['/']);
+        }, err => {
+          this.common.openDialogMessage('Error', 'Error while performing action: delete');
+        });
+      }
+    });
   }
 }
