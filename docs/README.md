@@ -5,6 +5,8 @@ Site avaialble at : [N4NITIN](http://www.n4nit.in/) and [Heroku](https://short-u
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
 
+Google Analytics has been added. Can be accessed by limited users.
+
 ## Getting delvelopment server ready
 Install `node`
 
