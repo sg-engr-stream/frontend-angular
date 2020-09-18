@@ -303,6 +303,7 @@ export class ProfileComponent implements OnInit {
             this.selectGroupOptionList.push({ group_id: res.result.group.group_id, title: result.title });
             this.allLoadedGroupData = res1.result;
             if (this.selectGroupOptionList.length > 0) {
+              this.selectedGroupDetails = res1.result[0].group_details;
               this.selectedGroup = this.selectGroupOptionList[0].group_id;
               this.rowDataGroup = this.allLoadedGroupData[this.selectedGroup];
             }

@@ -97,8 +97,8 @@
       </mat-expansion-panel-header>
       <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="group-selector">
         <div>
-          <img mat-card-avatar
-               [src]="selectedGroupDetails.icon_url === null ? './favicon.ico': selectedGroupDetails.icon_url" alt="">
+          <img mat-card-avatar *ngIf="selectGroupOptionList.length > 0"
+               [src]="selectedGroupDetails.icon_url === null || selectedGroupDetails.icon_url === undefined ? './favicon.ico': selectedGroupDetails.icon_url" alt="">
           <mat-form-field appearance="fill">
             <mat-label>Select an option</mat-label>
             <mat-select [(value)]="selectedGroup" (selectionChange)="selectGroupChange($event)">
@@ -107,7 +107,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div>Description<span class="description">- {{selectedGroupDetails.description}}</span></div>
+        <div *ngIf="selectGroupOptionList.length > 0">Description<span class="description">- {{selectedGroupDetails.description}}</span></div>
         <div *ngIf="returnObjectKeys(allLoadedGroupData).length > 0">
           Status:
           <span [class]="this.selectedGroupDetails.status? 'green': 'red'">
