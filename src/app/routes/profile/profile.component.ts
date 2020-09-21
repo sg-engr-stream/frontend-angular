@@ -35,6 +35,11 @@ export class ProfileComponent implements OnInit {
       }
     },
     {
+      headerName: 'ShortUrl', field: 'short_url', width: 200, minWidth: 150, valueGetter: params => {
+        return window.location.origin + '/' + params.data.short_url;
+      }
+    },
+    {
       headerName: 'Access Type', field: 'access_type', width: 150, minWidth: 100,
       valueGetter: params => {
         if (params.data.owner === this.common.username) {

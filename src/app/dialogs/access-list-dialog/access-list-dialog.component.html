@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-  <div fxLayout="row wrap" fxLayoutGap="25px">
+  <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutGap.gt-xs="25px" fxLayoutAlign="center center">
     <mat-form-field appearance="outline" class="input-col-max d-flex">
       <mat-label>Owner</mat-label>
       <input matInput placeholder="Owner" [(ngModel)]="groupDetails.owner" [disabled]="!editable.owner"
@@ -81,6 +81,7 @@
     </button>
   </mat-form-field>
 </div>
+<div fxLayout="row" fxLayoutAlign="left top"><span class="red"><sup>**</sup></span><b><i>Note</i></b>&nbsp;: Provide access to username 'public', if you would like to give access to everyone.</div>
 <div>
   <li fxLayout="row wrap" fxLayoutAlign="space-between center"
       *ngFor="let access of groupDetails.user_access_list">

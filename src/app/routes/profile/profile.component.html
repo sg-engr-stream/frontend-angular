@@ -78,13 +78,15 @@
           [columnDefs]="columnDefsCard"
           [gridOptions]="gridOptionsCard"
           rowSelection="multiple"
-          [rowMultiSelectWithClick]="true"
+          [suppressRowClickSelection]="true"
+          [rowMultiSelectWithClick]="false"
           [frameworkComponents]="frameworkComponents"
           (gridReady)="gridReadyCard()"
           (firstDataRendered)="gridReadyCard()"
         >
         </ag-grid-angular>
       </div>
+      <div><span class="red"><sup>**</sup></span><b><i>Note</i></b>&nbsp;: Provide access to username 'public', after clicking 'Open'<i>(for popup window)</i> or 'Edit'<i>(for new window)</i>, if you would like to give access to everyone.</div>
     </mat-expansion-panel>
   </mat-accordion>
   <mat-accordion>
