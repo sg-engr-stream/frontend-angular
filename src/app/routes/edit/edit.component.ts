@@ -166,7 +166,8 @@ export class EditComponent implements AfterViewInit {
         this.cardDetails.user_access_list.push({
           username: this.usernameForAccess,
           card_id: this.cardDetails.card_id,
-          access_type: 'RO'
+          access_type: 'RO',
+          access_status: true
         });
         this.oldValues.user_access_list = this.cardDetails.user_access_list;
         this.editable.accessList = !this.editable.accessList;
@@ -176,7 +177,7 @@ export class EditComponent implements AfterViewInit {
       } else {
         this.common.openDialogMessage('Error', 'User ' + this.usernameForAccess + ' is not available or not verified.');
       }
-    }, () => {
+    }, err => {
       this.common.openDialogMessage('Error', 'Error while giving access to ' + this.usernameForAccess);
     });
   }
@@ -233,7 +234,11 @@ export class EditComponent implements AfterViewInit {
         this.request.actionOnCards({ card_ids: [this.cardDetails.card_id] }, 'delete').subscribe(res1 => {
           this.router.navigate(['/']);
         }, err => {
-          this.common.openDialogMessage('Error', 'Error while performing action: delete');
+          if (err.status === 401) {
+            this.common.openDialogMessage('Error', 'You are not authorised, for some of the selected cards, to perform action: delete');
+          } else {
+            this.common.openDialogMessage('Error', 'Error while performing action: delete');
+          }
         });
       }
     });

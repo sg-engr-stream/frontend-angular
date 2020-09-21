@@ -163,7 +163,7 @@
       <div>
         <li fxLayout="row wrap" fxLayoutAlign="space-between center"
             *ngFor="let access of cardDetails.user_access_list">
-          <span><mat-slide-toggle *ngIf="cardDetails.access_type === 'RW'" [(ngModel)]="access.access_status"
+          <span><mat-slide-toggle [checked]="access.access_status" *ngIf="cardDetails.access_type === 'RW'" [(ngModel)]="access.access_status"
                                   (change)="changeUserAccessStatus(access)"
                                   class="access-slide" color="primary"></mat-slide-toggle>
             {{access.username}}</span>
@@ -186,7 +186,7 @@
         <button mat-flat-button color="primary" [mat-dialog-close]="false">Close
           <mat-icon inline="true">close</mat-icon>
         </button>
-        <button mat-flat-button color="warn" [mat-dialog-close]="true">Delete
+        <button mat-flat-button color="warn" [mat-dialog-close]="true" [disabled]="cardDetails.access_type === 'RO'">Delete
           <mat-icon inline="true">delete_forever</mat-icon>
         </button>
       </mat-dialog-actions>

@@ -62,11 +62,19 @@ export class ProfileComponent implements OnInit {
           console.log(field);
           this.openCardInDialog(field.data).subscribe(res => {
             if (res) {
-              this.request.actionOnCards({ card_ids: [field.data.card_id] }, 'delete').subscribe(res1 => {
-                // this.gridOptionsCard.api.applyTransaction({ remove: selectedCards });
-                this.ngOnInit();
-              }, err => {
-                this.common.openDialogMessage('Error', 'Error while performing action: delete');
+              this.common.openConfirmationDialog().subscribe(res1 => {
+                if (res1) {
+                  this.request.actionOnCards({ card_ids: [field.data.card_id] }, 'delete').subscribe(res2 => {
+                    // this.gridOptionsCard.api.applyTransaction({ remove: selectedCards });
+                    this.ngOnInit();
+                  }, err => {
+                    if (err.status === 401) {
+                      this.common.openDialogMessage('Error', 'You are not authorised, for some of the selected cards, to perform action: delete');
+                    } else {
+                      this.common.openDialogMessage('Error', 'Error while performing action: delete');
+                    }
+                  });
+                }
               });
             }
           }, err => {
@@ -135,8 +143,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     if (this.common.username !== null) {
       this.request.getProfileData().subscribe(res => {
-        this.rowDataCard = res.result.owner;
-        this.rowDataCard.concat(res.result.shared_with_me);
+        this.rowDataCard = res.result.owner.concat(res.result.shared_with_me);
         this.allLoadedGroupData = res.result.cards_in_group;
         this.selectGroupOptionList = [];
         Object.keys(this.allLoadedGroupData).forEach((key) => {
@@ -244,7 +251,11 @@ export class ProfileComponent implements OnInit {
           // this.gridOptionsCard.api.applyTransaction({ remove: selectedCards });
           this.ngOnInit();
         }, err => {
-          this.common.openDialogMessage('Error', 'Error while performing action: delete');
+          if (err.status === 401) {
+            this.common.openDialogMessage('Error', 'You are not authorised, for some of the selected cards, to perform action: delete');
+          } else {
+            this.common.openDialogMessage('Error', 'Error while performing action: delete');
+          }
         });
       }
     });
