@@ -4,7 +4,7 @@
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form class="login-form" [formGroup]="loginForm">
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="loginForm.valid ? login() : null">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
           <input matInput placeholder="Username" formControlName="username" required>
@@ -23,13 +23,14 @@
 
         </mat-form-field>
 
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+          <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">Login</button>
+            <button mat-raised-button (click)="forgotPass = !forgotPass" color="primary">Forgot Password</button>
+          </mat-card-actions>
+        </div>
       </form>
-      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
-        <mat-card-actions>
-          <button mat-raised-button (click)="login()" color="primary" [disabled]="!loginForm.valid">Login</button>
-          <button mat-raised-button (click)="forgotPass = !forgotPass" color="primary">Forgot Password</button>
-        </mat-card-actions>
-      </div>
+
     </mat-card-content>
     <mat-card-content>
       <div>Not yet registered,
@@ -74,7 +75,7 @@
       <mat-card-title>SignUp</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form class="login-form" [formGroup]="signupForm" fxLayoutGap="15px">
+      <form class="login-form" [formGroup]="signupForm" (ngSubmit)="signupForm.valid && usernameAvailable ? signup() : null" fxLayoutGap="15px">
         <div fxLayout.gt-sm="row" fxLayout.lt-sm="column" fxLayoutGap="15px">
           <div>
             <mat-form-field appearance="outline">
@@ -125,15 +126,15 @@
             </mat-form-field>
           </div>
         </div>
-
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+          <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary"
+                    [disabled]="!(signupForm.valid && usernameAvailable)">SignUp
+            </button>
+          </mat-card-actions>
+        </div>
       </form>
-      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
-        <mat-card-actions>
-          <button mat-raised-button (click)="signup()" color="primary"
-                  [disabled]="!(signupForm.valid && usernameAvailable)">SignUp
-          </button>
-        </mat-card-actions>
-      </div>
+
     </mat-card-content>
     <mat-card-content fxLayoutAlign="center center">
       <div>Already registered,
