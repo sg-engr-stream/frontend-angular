@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://short-url-prod.herokuapp.com/api/v1'
+  backendUrl: 'https://shorturl-backend.onrender.com/api/v1'
 };
